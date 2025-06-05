@@ -6,21 +6,56 @@
   <title>UEHer đi học - Điều khoản & Chính sách</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/i18next@22.4.9/dist/umd/i18next.min.js"></script>
-  <style>
+    <style>
+    :root {
+      --primary-color: #005f69;
+      --accent-color: #f26f33;
+      --bg-light: #f4f4f4;
+      --bg-dark: #1a1a1a;
+      --text-light: #222;
+      --text-dark: #f0f0f0;
+    }
+
+    [data-theme="dark"] {
+      --bg-light: #1a1a1a;
+      --text-light: #f0f0f0;
+      --bg-dark: #333333;
+    }
+
     * { box-sizing: border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
       margin: 0;
       padding: 0;
-      background: #f4f4f4;
-      color: #222;
+      background: var(--bg-light);
+      color: var(--text-light);
       line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    nav.navbar {
+      position: sticky;
+      top: 0;
+      background: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      border-bottom: 1px solid #ddd;
+      z-index: 999;
+    }
+    nav.navbar a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    nav.navbar a:hover {
+      color: var(--accent-color);
     }
     header {
-      background: #005f69;
+      background: var(--primary-color);
       padding: 30px 20px;
       text-align: center;
-      border-bottom: 5px solid #f26f33;
+      border-bottom: 5px solid var(--accent-color);
       position: relative;
     }
     header img {
@@ -36,15 +71,22 @@
       position: absolute;
       top: 20px;
       right: 20px;
+      display: flex;
+      gap: 8px;
     }
-    .lang-switcher button {
-      margin-left: 5px;
-      padding: 5px 12px;
-      font-size: 0.85em;
+    .dark-switcher {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .lang-switcher button,
+    .dark-switcher button {
+      padding: 6px 14px;
+      font-size: 0.9em;
       border: none;
-      background-color: #f26f33;
+      background-color: var(--accent-color);
       color: white;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
     main {
@@ -53,7 +95,7 @@
       padding: 0 20px;
     }
     h2 {
-      color: #005f69;
+      color: var(--primary-color);
       margin-bottom: 15px;
     }
     section {
@@ -64,15 +106,26 @@
       border-radius: 16px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
+    [data-theme="dark"] section {
+      background: var(--bg-dark);
+      color: var(--text-dark);
+    }
+    .faq {
+      padding-left: 20px;
+    }
+    .faq h3 {
+      margin-top: 10px;
+      color: var(--primary-color);
+    }
     footer {
       text-align: center;
       padding: 20px;
       font-size: 0.9em;
       color: #fff;
-      background: #005f69;
-      border-top: 4px solid #f26f33;
+      background: var(--primary-color);
+      border-top: 4px solid var(--accent-color);
     }
-    a { color: #f26f33; text-decoration: none; }
+    a { color: var(--accent-color); text-decoration: none; }
     a:hover { text-decoration: underline; }
     .contact-form {
       display: flex;
@@ -87,7 +140,7 @@
       font-size: 1em;
     }
     .contact-form button {
-      background-color: #005f69;
+      background-color: var(--primary-color);
       color: white;
       padding: 12px;
       font-size: 1em;
@@ -99,10 +152,42 @@
     .contact-form button:hover {
       background-color: #003f48;
     }
+    .cta-extension {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .cta-extension a {
+      display: inline-block;
+      background: var(--accent-color);
+      color: white;
+      font-weight: bold;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 1em;
+      transition: background 0.3s ease;
+    }
+    .cta-extension a:hover {
+      background: #d3551e;
+    }
+    .counter {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1em;
+      color: #555;
+    }
+    .coming-soon {
+      background: #fff7e6;
+      border-left: 4px solid #f26f33;
+      padding: 16px;
+      border-radius: 10px;
+    }
   </style>
 </head>
 <body>
   <header>
+    <div class="dark-switcher">
+      <button onclick="toggleDarkMode()">🌙 Chế độ tối</button>
+    </div>
     <div class="lang-switcher">
       <button onclick="changeLang('vi')">VI</button>
       <button onclick="changeLang('en')">EN</button>
@@ -110,6 +195,64 @@
     <img src="logo.jpg" alt="UEHer đi học Logo">
     <h1 data-i18n="title">UEHer đi học - Điều khoản & Chính sách</h1>
   </header>
+
+  <nav class="navbar">
+    <a href="#features">Tính năng</a>
+    <a href="#terms">Điều khoản</a>
+    <a href="#privacy">Bảo mật</a>
+    <a href="#faq">FAQ</a>
+  </nav>
+
+  <div class="cta-extension">
+    <a href="https://chrome.google.com/webstore" target="_blank">Dùng thử Extension ngay</a>
+  </div>
+
+  <main>
+    <section id="features">
+      <h2>Tính năng nổi bật</h2>
+      <ul>
+        <li>Tự động xếp lịch học theo file Excel và LMS</li>
+        <li>Đồng bộ Google Calendar chỉ với 1 click</li>
+        <li>Hỗ trợ nhiều lớp, nhiều học kỳ</li>
+        <li>Tặng tài liệu học tập, tips hiệu quả</li>
+      </ul>
+    </section>
+
+    <section id="faq">
+      <h2>FAQ - Câu hỏi thường gặp</h2>
+      <div class="faq">
+        <h3>📌 Extension có miễn phí không?</h3>
+        <p>Hoàn toàn miễn phí cho sinh viên UEH.</p>
+
+        <h3>📌 Có cần cấp quyền Google không?</h3>
+        <p>Có. Chúng tôi cần bạn cho phép truy cập Google Calendar để tạo sự kiện học tập.</p>
+
+        <h3>📌 Có thu thập dữ liệu cá nhân không?</h3>
+        <p>Không. Dữ liệu chỉ được xử lý tạm thời và không lưu trữ.</p>
+      </div>
+    </section>
+
+    <section class="coming-soon">
+      <h2>🚧 Tính năng sắp ra mắt</h2>
+      <ul>
+        <li>Tự động tạo lịch thi từ hệ thống UEH Portal</li>
+        <li>Nhắc nhở deadline từ nhiều nền tảng (Canvas, Moodle...)</li>
+        <li>Chế độ thông báo push qua Zalo & Email</li>
+      </ul>
+    </section>
+
+    <div class="counter">
+      Đã có hơn <strong>1.200</strong> UEHers sử dụng và gửi phản hồi 🎉
+    </div>
+  </main>
+
+  <script>
+    function toggleDarkMode() {
+      const html = document.documentElement;
+      const current = html.getAttribute("data-theme");
+      html.setAttribute("data-theme", current === "dark" ? "light" : "dark");
+    }
+  </script>
 
   <main>
     <section>
@@ -173,7 +316,7 @@
 
   <!-- Google Sheets Submission -->
   <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzy2LW7y_mRfXfsWGzf3KwF2oA5jARjbezj3vPfCTVoBxUq1gfpOEwXqrd9uACD7Xth-Q/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbytE0cdNZJ7bYQvJfZyr1OQhAedP5udn-VBp0_UPiodETtvJuVIMmYe9pIhkBGBDz3VdA/exec';
     function submitToGoogleSheets(e) {
       e.preventDefault();
       const form = e.target;

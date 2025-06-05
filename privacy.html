@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UEHer đi học - Điều khoản & Chính sách</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/i18next@22.4.9/dist/umd/i18next.min.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #dbeafe, #f0f9ff);
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background: #fff;
+      padding: 30px 20px 20px;
+      text-align: center;
+      border-bottom: 2px solid #e0e0e0;
+      position: relative;
+    }
+    header img {
+      height: 80px;
+      margin-bottom: 10px;
+    }
+    .lang-switcher {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+    }
+    .lang-switcher button {
+      margin-left: 5px;
+      padding: 5px 12px;
+      font-size: 0.85em;
+      border: none;
+      background-color: #2563eb;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    main {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1, h2 {
+      color: #1e3a8a;
+    }
+    section {
+      margin-bottom: 40px;
+      background: white;
+      padding: 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #666;
+      background: #f1f5f9;
+      border-top: 1px solid #ddd;
+    }
+    a {
+      color: #1d4ed8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .contact-form input, .contact-form textarea {
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+    .contact-form button {
+      background-color: #1d4ed8;
+      color: white;
+      padding: 12px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .contact-form button:hover {
+      background-color: #1e40af;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="lang-switcher">
+      <button onclick="changeLang('vi')">VI</button>
+      <button onclick="changeLang('en')">EN</button>
+    </div>
+    <img src="logo.jpg" alt="UEHer đi học Logo">
+    <h1 data-i18n="title">UEHer đi học - Điều khoản & Chính sách</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2 data-i18n="terms_title">Điều khoản sử dụng</h2>
+      <p data-i18n="terms_desc"></p>
+      <ul>
+        <li data-i18n="terms_1"></li>
+        <li data-i18n="terms_2"></li>
+        <li data-i18n="terms_3"></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-i18n="privacy_title">Chính sách bảo mật</h2>
+      <ul>
+        <li data-i18n="privacy_1"></li>
+        <li data-i18n="privacy_2"></li>
+        <li data-i18n="privacy_3"></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2 data-i18n="contact_title">Liên hệ & Hỗ trợ</h2>
+      <form class="contact-form" onsubmit="submitToGoogleSheets(event)">
+        <input type="text" name="name" placeholder="Tên của bạn" required />
+        <input type="email" name="email" placeholder="Email liên hệ" required />
+        <textarea name="message" placeholder="Nội dung phản hồi..." rows="5" required></textarea>
+        <button type="submit" data-i18n="send_button">Gửi phản hồi</button>
+      </form>
+      <p style="margin-top: 10px; font-size: 0.85em; color: #888;">
+        <span data-i18n="contact_alt"></span> <a href="https://www.facebook.com/profile.php?id=61569864908193" target="_blank">UEHer đi học</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 UEHer đi học. Tất cả các quyền được bảo lưu.
+  </footer>
+
+  <!-- Chatbot (Tawk.to) -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/662f71fb1ec1082f04e2fa80/1hshnaevm';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
+
+  <!-- Google Sheets Submission -->
+  <script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzy2LW7y_mRfXfsWGzf3KwF2oA5jARjbezj3vPfCTVoBxUq1gfpOEwXqrd9uACD7Xth-Q/exec';
+
+    function submitToGoogleSheets(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+
+      fetch(scriptURL, { method: 'POST', body: formData })
+        .then(response => {
+          alert('Gửi phản hồi thành công!');
+          form.reset();
+        })
+        .catch(error => {
+          alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+          console.error('Error!', error.message);
+        });
+    }
+  </script>
+
+  <!-- Ngôn ngữ -->
+  <script>
+    const resources = {
+      en: {
+        translation: {
+          title: "UEHer Extension - Terms & Policy",
+          terms_title: "Terms of Use",
+          terms_desc: "By using this extension, you agree to the following:",
+          terms_1: "Do not use it for illegal or harmful purposes.",
+          terms_2: "Do not tamper with its code or data.",
+          terms_3: "Comply with UEH's current regulations.",
+          privacy_title: "Privacy Policy",
+          privacy_1: "We do not store or share your calendar data.",
+          privacy_2: "Google Calendar access is through your own account.",
+          privacy_3: "We do not collect personal data.",
+          contact_title: "Contact & Support",
+          send_button: "Send Feedback",
+          contact_alt: "Or contact us via fanpage"
+        }
+      },
+      vi: {
+        translation: {
+          title: "UEHer đi học - Điều khoản & Chính sách",
+          terms_title: "Điều khoản sử dụng",
+          terms_desc: "Bằng việc sử dụng extension UEHer đi học, bạn đồng ý với các điều khoản sau:",
+          terms_1: "Không sử dụng cho các hoạt động vi phạm pháp luật hoặc gây ảnh hưởng tới người khác.",
+          terms_2: "Không can thiệp trái phép vào nội dung, mã nguồn hoặc quá trình xử lý dữ liệu của tiện ích.",
+          terms_3: "Tuân thủ đầy đủ các quy định hiện hành của UEH.",
+          privacy_title: "Chính sách bảo mật",
+          privacy_1: "Dữ liệu lịch không được lưu trữ hoặc chia sẻ ra bên ngoài.",
+          privacy_2: "Việc truy cập Google Calendar hoàn toàn thông qua tài khoản cá nhân của người dùng.",
+          privacy_3: "Không thu thập bất kỳ thông tin nhận dạng cá nhân nào.",
+          contact_title: "Liên hệ & Hỗ trợ",
+          send_button: "Gửi phản hồi",
+          contact_alt: "Hoặc liên hệ trực tiếp qua fanpage"
+        }
+      }
+    };
+
+    i18next.init({
+      lng: 'vi',
+      resources
+    }, function(err, t) {
+      updateContent();
+    });
+
+    function updateContent() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        el.textContent = i18next.t(el.getAttribute('data-i18n'));
+      });
+    }
+
+    function changeLang(lng) {
+      i18next.changeLanguage(lng, updateContent);
+    }
+  </script>
+</body>
+</html>

@@ -6,7 +6,7 @@
   <title>UEHer đi học - Điều khoản & Chính sách</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/i18next@22.4.9/dist/umd/i18next.min.js"></script>
-   <style>
+  <style>
     * { box-sizing: border-box; }
     body {
       font-family: 'Quicksand', sans-serif;
@@ -21,6 +21,7 @@
       padding: 30px 20px;
       text-align: center;
       border-bottom: 5px solid #f26f33;
+      position: relative;
     }
     header img {
       height: 80px;
@@ -112,17 +113,17 @@
 
   <main>
     <section>
-      <h2>Về UEHer đi học</h2>
-      <p>UEHer đi học là một dự án sinh viên của UEH nhằm hỗ trợ các bạn sinh viên tự động hoá việc xếp lịch học và nhắc nhở trên Google Calendar. Với mục tiêu tiết kiệm thời gian và nâng cao trải nghiệm học tập, nhóm mong muốn đưa công cụ này đến gần hơn với cộng đồng UEHers.</p>
+      <h2 data-i18n="about_title">Về UEHer đi học</h2>
+      <p data-i18n="about_desc">UEHer đi học là một dự án sinh viên của UEH nhằm hỗ trợ các bạn sinh viên tự động hoá việc xếp lịch học và nhắc nhở trên Google Calendar. Với mục tiêu tiết kiệm thời gian và nâng cao trải nghiệm học tập, nhóm mong muốn đưa công cụ này đến gần hơn với cộng đồng UEHers.</p>
     </section>
 
     <section>
-      <h2>Tính năng nổi bật</h2>
+      <h2 data-i18n="features_title">Tính năng nổi bật</h2>
       <ul>
-        <li>Tự động xếp lịch học theo file excel và các deadline trên lms </li>
-        <li>Đồng bộ lịch học lên Google Calendar chỉ với 1 click</li>
-        <li>Hỗ trợ nhiều học kỳ, nhiều lớp, nhiều tài khoản</li>
-        <li>Tặng kèm tài liệu học tập, cheat sheet & tips</li>
+        <li data-i18n="feature_1">Tự động xếp lịch học theo file excel và các deadline trên LMS</li>
+        <li data-i18n="feature_2">Đồng bộ lịch học lên Google Calendar chỉ với 1 click</li>
+        <li data-i18n="feature_3">Hỗ trợ nhiều học kỳ, nhiều lớp, nhiều tài khoản</li>
+        <li data-i18n="feature_4">Tặng kèm tài liệu học tập, cheat sheet & tips</li>
       </ul>
     </section>
 
@@ -169,18 +170,6 @@
     &copy; 2025 UEHer đi học. Tất cả các quyền được bảo lưu.
   </footer>
 
-  <!-- Chatbot -->
-  <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-      s1.async=true;
-      s1.src='https://embed.tawk.to/662f71fb1ec1082f04e2fa80/1hshnaevm';
-      s1.charset='UTF-8';
-      s1.setAttribute('crossorigin','*');
-      s0.parentNode.insertBefore(s1,s0);
-    })();
-  </script>
 
   <!-- Google Sheets Submission -->
   <script>
@@ -207,6 +196,13 @@
       en: {
         translation: {
           title: "UEHer Extension - Terms & Policy",
+          about_title: "About UEHer",
+          about_desc: "UEHer is a student project from UEH to help students automate class scheduling and reminders on Google Calendar. Our goal is to save time and enhance the learning experience.",
+          features_title: "Key Features",
+          feature_1: "Automatically schedule using Excel files and LMS deadlines",
+          feature_2: "Sync schedule to Google Calendar with 1 click",
+          feature_3: "Supports multiple terms, classes, and accounts",
+          feature_4: "Includes study resources, cheat sheets & tips",
           terms_title: "Terms of Use",
           terms_desc: "By using this extension, you agree to the following:",
           terms_1: "Do not use it for illegal or harmful purposes.",
@@ -224,6 +220,13 @@
       vi: {
         translation: {
           title: "UEHer đi học - Điều khoản & Chính sách",
+          about_title: "Về UEHer đi học",
+          about_desc: "UEHer đi học là một dự án sinh viên của UEH nhằm hỗ trợ các bạn sinh viên tự động hoá việc xếp lịch học và nhắc nhở trên Google Calendar. Với mục tiêu tiết kiệm thời gian và nâng cao trải nghiệm học tập, nhóm mong muốn đưa công cụ này đến gần hơn với cộng đồng UEHers.",
+          features_title: "Tính năng nổi bật",
+          feature_1: "Tự động xếp lịch học theo file excel và các deadline trên LMS",
+          feature_2: "Đồng bộ lịch học lên Google Calendar chỉ với 1 click",
+          feature_3: "Hỗ trợ nhiều học kỳ, nhiều lớp, nhiều tài khoản",
+          feature_4: "Tặng kèm tài liệu học tập, cheat sheet & tips",
           terms_title: "Điều khoản sử dụng",
           terms_desc: "Bằng việc sử dụng extension UEHer đi học, bạn đồng ý với các điều khoản sau:",
           terms_1: "Không sử dụng cho các hoạt động vi phạm pháp luật hoặc gây ảnh hưởng tới người khác.",
@@ -241,17 +244,17 @@
     };
 
     i18next.init({ lng: 'vi', resources }, function(err, t) {
-      updateContent();
-    });
-
-    function updateContent() {
       document.querySelectorAll('[data-i18n]').forEach(el => {
         el.textContent = i18next.t(el.getAttribute('data-i18n'));
       });
-    }
+    });
 
     function changeLang(lng) {
-      i18next.changeLanguage(lng, updateContent);
+      i18next.changeLanguage(lng, function() {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          el.textContent = i18next.t(el.getAttribute('data-i18n'));
+        });
+      });
     }
   </script>
 </body>

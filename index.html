@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UEHer đi học - Điều khoản & Chính sách</title>
+  <title>UEHer đi học - Xếp lịch học với Google Calendar</title>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/i18next@22.4.9/dist/umd/i18next.min.js"></script>
-    <style>
+  <style>
     :root {
       --primary-color: #005f69;
       --accent-color: #f26f33;
@@ -184,6 +184,7 @@
   </style>
 </head>
 <body>
+  
   <header>
     <div class="dark-switcher">
       <button onclick="toggleDarkMode()">🌙 Chế độ tối</button>
@@ -193,7 +194,7 @@
       <button onclick="changeLang('en')">EN</button>
     </div>
     <img src="logo.jpg" alt="UEHer đi học Logo">
-    <h1 data-i18n="title">UEHer đi học - Điều khoản & Chính sách</h1>
+    <h1 data-i18n="title">UEHer đi học - Xếp lịch học cùng Google Calendar</h1>
   </header>
 
   <nav class="navbar">
@@ -221,8 +222,8 @@
     <section id="faq">
       <h2>FAQ - Câu hỏi thường gặp</h2>
       <div class="faq">
-        <h3>📌 Extension có miễn phí không?</h3>
-        <p>Hoàn toàn miễn phí cho sinh viên UEH.</p>
+        <h3>📌 Extension có dễ sử dụng không?</h3>
+        <p>Hoàn toàn chỉ bằng vài cú click chuột sinh viên UEH.</p>
 
         <h3>📌 Có cần cấp quyền Google không?</h3>
         <p>Có. Chúng tôi cần bạn cho phép truy cập Google Calendar để tạo sự kiện học tập.</p>
@@ -242,7 +243,7 @@
     </section>
 
     <div class="counter">
-      Đã có hơn <strong>1.200</strong> UEHers sử dụng và gửi phản hồi 🎉
+      Đã có rất nhiều UEHers sử dụng và gửi phản hồi 🎉
     </div>
   </main>
 
@@ -276,24 +277,24 @@
       <img src="ueher.jpg" alt="Tặng thêm tài liệu cho các bạn sinh viên" style="width:100%; max-width:800px; border-radius:12px;">
     </section>
 
-    <section>
-      <h2 data-i18n="terms_title">Điều khoản sử dụng</h2>
-      <p data-i18n="terms_desc"></p>
-      <ul>
-        <li data-i18n="terms_1"></li>
-        <li data-i18n="terms_2"></li>
-        <li data-i18n="terms_3"></li>
-      </ul>
-    </section>
+    <section id="terms">
+  <h2 data-i18n="terms_title">Điều khoản sử dụng</h2>
+  <p data-i18n="terms_desc"></p>
+  <ul>
+    <li data-i18n="terms_1"></li>
+    <li data-i18n="terms_2"></li>
+    <li data-i18n="terms_3"></li>
+  </ul>
+</section>
 
-    <section>
-      <h2 data-i18n="privacy_title">Chính sách bảo mật</h2>
-      <ul>
-        <li data-i18n="privacy_1"></li>
-        <li data-i18n="privacy_2"></li>
-        <li data-i18n="privacy_3"></li>
-      </ul>
-    </section>
+<section id="privacy">
+  <h2 data-i18n="privacy_title">Chính sách bảo mật</h2>
+  <ul>
+    <li data-i18n="privacy_1"></li>
+    <li data-i18n="privacy_2"></li>
+    <li data-i18n="privacy_3"></li>
+  </ul>
+</section>
 
     <section>
       <h2 data-i18n="contact_title">Liên hệ & Hỗ trợ</h2>
@@ -338,7 +339,7 @@
     const resources = {
       en: {
         translation: {
-          title: "UEHer Extension - Terms & Policy",
+          title: "UEHer Extension - Automate Class Scheduling with Google Calendar",
           about_title: "About UEHer",
           about_desc: "UEHer is a student project from UEH to help students automate class scheduling and reminders on Google Calendar. Our goal is to save time and enhance the learning experience.",
           features_title: "Key Features",
@@ -362,7 +363,7 @@
       },
       vi: {
         translation: {
-          title: "UEHer đi học - Điều khoản & Chính sách",
+          title: "UEHer đi học - Xếp lịch học với Google Calendar",
           about_title: "Về UEHer đi học",
           about_desc: "UEHer đi học là một dự án sinh viên của UEH nhằm hỗ trợ các bạn sinh viên tự động hoá việc xếp lịch học và nhắc nhở trên Google Calendar. Với mục tiêu tiết kiệm thời gian và nâng cao trải nghiệm học tập, nhóm mong muốn đưa công cụ này đến gần hơn với cộng đồng UEHers.",
           features_title: "Tính năng nổi bật",

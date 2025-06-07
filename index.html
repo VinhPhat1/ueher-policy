@@ -6,6 +6,7 @@
   <title>UEHer đi học - Xếp lịch học với Google Calendar</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <style>
     :root {
       --primary-color: #005f69;
@@ -410,15 +411,15 @@
       color: #22c55e;
     }
 
-    /* Contact Form */
-    .contact-form {
+      .contact-form {
       background: var(--card-bg);
       padding: 2rem;
       border-radius: 16px;
       box-shadow: var(--shadow);
-      max-width: 600px;
-      margin: 0 auto;
+      flex: 1;
+      min-width: 300px;
     }
+
 
     .form-group {
       margin-bottom: 1.5rem;
@@ -925,7 +926,7 @@
         <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
       </section>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">
+      <div style="display: flex; flex-wrap: wrap; gap: 3rem; margin-bottom: 3rem;">
         <div>
           <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Thông tin liên hệ</h3>
           <div style="display: flex; flex-direction: column; gap: 1.5rem;">
@@ -935,7 +936,7 @@
               </div>
               <div>
                 <h4 style="margin-bottom: 0.25rem;">Email</h4>
-                <p style="color: #64748b; margin: 0;">support@ueher.edu.vn</p>
+                <p style="color: #64748b; margin: 0;">ueherdihoc.contact@gmail.com</p>
               </div>
             </div>
             
@@ -971,42 +972,47 @@
           </div>
         </div>
 
-        <div class="contact-form">
-          <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Gửi tin nhắn</h3>
-          <form onsubmit="submitContactForm(event)">
-            <div class="form-group">
-              <label for="name">Họ và tên *</label>
-              <input type="text" id="name" name="name" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="email">Email *</label>
-              <input type="email" id="email" name="email" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="subject">Chủ đề</label>
-              <select id="subject" name="subject" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
-                <option value="support">Hỗ trợ kỹ thuật</option>
-                <option value="feedback">Phản hồi</option>
-                <option value="bug">Báo lỗi</option>
-                <option value="feature">Đề xuất tính năng</option>
-                <option value="other">Khác</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="message">Nội dung *</label>
-              <textarea id="message" name="message" rows="5" required></textarea>
-            </div>
-            
-            <button type="submit" class="btn btn-primary" style="width: 100%;">
-              <i class="fas fa-paper-plane"></i>
-              Gửi tin nhắn
-            </button>
-          </form>
-        </div>
-      </div>
-      
+      <div class="contact-form" style="background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+  <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem;">Gửi tin nhắn</h3>
+  <form onsubmit="submitContactForm(event)">
+    <div class="form-group" style="margin-bottom: 1rem;">
+      <label for="name" style="font-weight: 500;">Họ và tên *</label>
+      <input type="text" id="name" name="name" required
+             style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
+    </div>
+
+    <div class="form-group" style="margin-bottom: 1rem;">
+      <label for="email" style="font-weight: 500;">Email *</label>
+      <input type="email" id="email" name="email" required
+             style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
+    </div>
+
+    <div class="form-group" style="margin-bottom: 1rem;">
+      <label for="subject" style="font-weight: 500;">Chủ đề</label>
+      <select id="subject" name="subject"
+              style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
+        <option value="support">Hỗ trợ kỹ thuật</option>
+        <option value="feedback">Phản hồi</option>
+        <option value="bug">Báo lỗi</option>
+        <option value="feature">Đề xuất tính năng</option>
+        <option value="other">Khác</option>
+      </select>
+    </div>
+
+    <div class="form-group" style="margin-bottom: 1.5rem;">
+      <label for="message" style="font-weight: 500;">Nội dung *</label>
+      <textarea id="message" name="message" rows="5" required
+                style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light); resize: vertical;"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary"
+            style="width: 100%; padding: 0.85rem; border-radius: 8px; font-weight: 600; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+      <i class="fas fa-paper-plane"></i>
+      Gửi tin nhắn
+    </button>
+  </form>
+</div>
+</div>
   
 
       <!-- FAQ Preview -->
@@ -1080,16 +1086,6 @@
 
         <div class="faq-item">
           <div class="faq-question" onclick="toggleFaq(this)">
-            <span>🔔 Có tính năng nhắc nhở deadline không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Có! Extension có thể tự động theo dõi và nhắc nhở các deadline từ Canvas, Moodle và các LMS khác. Bạn sẽ nhận được thông báo qua email hoặc notification trên trình duyệt trước khi deadline đến hạn.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
             <span>💰 Extension có miễn phí không?</span>
             <i class="fas fa-chevron-down"></i>
           </div>
@@ -1138,7 +1134,7 @@
         <h3>UEHer đi học</h3>
         <p>Giải pháp xếp lịch học thông minh dành cho sinh viên UEH. Tiết kiệm thời gian, nâng cao hiệu quả học tập.</p>
         <div class="social-links">
-          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61569864908193"><i class="fab fa-facebook"></i></a>
           <a href="#"><i class="fab fa-instagram"></i></a>
           <a href="#"><i class="fab fa-twitter"></i></a>
           <a href="#"><i class="fab fa-youtube"></i></a>
@@ -1251,25 +1247,48 @@
       }
     }
 
-    // Contact form submission
-    function submitContactForm(event) {
-      event.preventDefault();
-      const form = event.target;
-      const submitButton = form.querySelector('button[type="submit"]');
-      const originalText = submitButton.innerHTML;
-      
-      // Show loading state
-      submitButton.innerHTML = '<div class="loading"></div> Đang gửi...';
-      submitButton.disabled = true;
-      
-      // Simulate form submission
-      setTimeout(() => {
-        alert('Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 24 giờ.');
-        form.reset();
-        submitButton.innerHTML = originalText;
-        submitButton.disabled = false;
-      }, 2000);
-    }
+  function submitContactForm(event) {
+  event.preventDefault();
+  const form = event.target;
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalText = submitButton.innerHTML;
+
+  submitButton.innerHTML = '<div class="loading"></div> Đang gửi...';
+  submitButton.disabled = true;
+
+  // Dùng FormData để gửi theo kiểu form-urlencoded
+  const formData = new FormData(form);
+
+  fetch("https://script.google.com/macros/s/AKfycbx6W6JuhJun-HrPXUHvU8hIG3OGhKjSwZHqzGKrqt-88xenk766pOx-4HjT0zfECosV4A/exec", {
+    method: "POST",
+    body: formData
+  })
+  .then(() => {
+    form.reset();
+    submitButton.innerHTML = originalText;
+    submitButton.disabled = false;
+    Toastify({
+      text: "🎉 Gửi thành công! Cảm ơn bạn đã liên hệ.",
+      duration: 3000,
+      gravity: "bottom",
+      position: "right",
+      backgroundColor: "#10b981"
+    }).showToast();
+  })
+  .catch(() => {
+    submitButton.innerHTML = originalText;
+    submitButton.disabled = false;
+    Toastify({
+      text: "😢 Gửi thất bại! Vui lòng thử lại.",
+      duration: 3000,
+      gravity: "bottom",
+      position: "right",
+      backgroundColor: "#ef4444"
+    }).showToast();
+  });
+}
+
+
 
     // Initialize theme on page load
     document.addEventListener('DOMContentLoaded', function() {

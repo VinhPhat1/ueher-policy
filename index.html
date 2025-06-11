@@ -1,34 +1,37 @@
 <!DOCTYPE html>
+
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UEHer đi học - Xếp lịch học với Google Calendar</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>UEHer đi học - Xếp lịch học với Google Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<link href="logo.jpg" rel="icon" type="image/jpeg"/>
+<style>
     :root {
-      --primary-color: #005f69;
-      --secondary-color: #0891b2;
-      --accent-color: #f26f33;
-      --bg-light: #f8fafc;
-      --bg-dark: #0f172a;
-      --text-light: #1e293b;
-      --text-dark: #f1f5f9;
-      --card-bg: #ffffff;
-      --card-bg-dark: #1e293b;
-      --border-color: #e2e8f0;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
+    --primary-color: #204584;
+    --secondary-color: #38a3a5;
+    --accent-color: #ffd166;
+    --accent-color2: #6c63ff;
+    --bg-light: #f3f6fa;
+    --bg-dark: #19233a;
+    --text-light: #1a2a41;
+    --text-dark: #fff;
+    --card-bg: #ffffff;
+    --card-bg-dark: #274472;
+    --border-color: #bed4e7;
+    --shadow: 0 6px 24px -4px rgba(32,69,132,0.13);
+    --shadow-lg: 0 14px 32px -8px rgba(32,69,132,0.19);
+  }
+  [data-theme="dark"] {
+    --bg-light: #19233a;
+    --text-light: #fff; 
+    --card-bg: #223459;
+    --border-color: #355179;
+  }
 
-    [data-theme="dark"] {
-      --bg-light: #0f172a;
-      --text-light: #f1f5f9;
-      --card-bg: #1e293b;
-      --border-color: #334155;
-    }
 
     * {
       box-sizing: border-box;
@@ -46,7 +49,8 @@
 
     /* Header */
     .header {
-      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+      color: var(--text-dark);
       padding: 2rem 0;
       position: relative;
       overflow: hidden;
@@ -242,26 +246,25 @@
     }
 
     .btn-primary {
-      background: var(--accent-color);
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background: #d3551e;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--primary-color);
-      border: 2px solid var(--primary-color);
-    }
-
-    .btn-secondary:hover {
       background: var(--primary-color);
-      color: white;
+      color: #fff;
+      font-weight: 700;
+      border: none;
     }
+    .btn-primary:hover {
+      background: var(--secondary-color);
+      color: #fff;
+    }
+    .btn-secondary {
+      background: var(--accent-color);
+      color: var(--primary-color);
+      border: 2px solid var(--accent-color);
+    }
+    .btn-secondary:hover {
+      background: var(--accent-color2);
+      color: #fff;
+    }
+
 
     /* Cards */
     .card-grid {
@@ -489,8 +492,8 @@
 
     /* Footer */
     .footer {
-      background: var(--primary-color);
-      color: white;
+      background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+      color: var(--text-dark);
       padding: 3rem 0 2rem;
       margin-top: 4rem;
     }
@@ -597,583 +600,602 @@
   </style>
 </head>
 <body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-content">
-      <div class="logo-section">
-        <div class="logo">
-  <img src="logo.jpg" alt="UEHer Logo" style="height: 60px; width: auto; border-radius: 8px;" />
+<!-- Header -->
+<header class="header">
+<div class="header-content">
+<div class="logo-section">
+<div class="logo">
+<img alt="UEHer Logo" src="logo.jpg" style="height: 60px; width: auto; border-radius: 8px;"/>
 </div>
-        <div class="logo-text">
-          <h1>UEHer đi học</h1>
-          <p>Xếp lịch học thông minh</p>
-        </div>
-      </div>
-      <div class="header-actions">
-        <button class="theme-toggle" onclick="toggleTheme()">
-          <i class="fas fa-moon"></i> <span id="theme-text">Chế độ tối</span>
-        </button>
-        <button class="lang-toggle" onclick="toggleLang()">
-          <i class="fas fa-globe"></i> <span id="lang-text">EN</span>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Navigation -->
-  <nav class="nav-container">
-    <div class="nav-content">
-      <div class="nav-tabs">
-        <a href="#" class="nav-tab active" onclick="switchTab('home')">
-          <i class="fas fa-home"></i>
-          <span>Trang chủ</span>
-        </a>
-        <a href="#" class="nav-tab" onclick="switchTab('about')">
-          <i class="fas fa-info-circle"></i>
-          <span>Giới thiệu</span>
-        </a>
-        <a href="#" class="nav-tab" onclick="switchTab('services')">
-          <i class="fas fa-cogs"></i>
-          <span>Dịch vụ</span>
-        </a>
-        <a href="#" class="nav-tab" onclick="switchTab('pricing')">
-          <i class="fas fa-tags"></i>
-          <span>Bảng giá</span>
-        </a>
-        <a href="#" class="nav-tab" onclick="switchTab('blog')">
-          <i class="fas fa-blog"></i>
-          <span>Blog</span>
-        </a>
-        <a href="#" class="nav-tab" onclick="switchTab('contact')">
-          <i class="fas fa-envelope"></i>
-          <span>Liên hệ</span>
-        </a>
-        <a href="#" class="nav-tab" onclick="switchTab('faq')">
-          <i class="fas fa-question-circle"></i>
-          <span>FAQ</span>
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main Content -->
-  <main class="main-content">
-    <!-- Home Tab -->
-    <div id="home" class="tab-content active">
-      <section class="hero">
-        <h2>Xếp lịch học tự động với Google Calendar</h2>
-        <p>Tiết kiệm thời gian, nâng cao hiệu quả học tập với công cụ tự động hóa lịch học dành riêng cho sinh viên UEH</p>
-        <div class="cta-buttons">
-          <a href="#" class="btn btn-primary">
-            <i class="fas fa-rocket"></i>
+<div class="logo-text">
+<h1>UEHer đi học</h1>
+<p>Xếp lịch học thông minh</p>
+</div>
+</div>
+<div class="header-actions">
+<button class="theme-toggle" onclick="toggleTheme()">
+<i class="fas fa-moon"></i> <span id="theme-text">Chế độ tối</span>
+</button>
+<button class="lang-toggle" onclick="toggleLang()">
+<i class="fas fa-globe"></i> <span id="lang-text">EN</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Navigation -->
+<nav class="nav-container">
+<div class="nav-content">
+<div class="nav-tabs">
+<a class="nav-tab active" href="#" onclick="switchTab('home')">
+<i class="fas fa-home"></i>
+<span>Trang chủ</span>
+</a>
+<a class="nav-tab" href="#" onclick="switchTab('about')">
+<i class="fas fa-info-circle"></i>
+<span>Giới thiệu</span>
+</a>
+<a class="nav-tab" href="#" onclick="switchTab('services')">
+<i class="fas fa-cogs"></i>
+<span>Dịch vụ</span>
+</a>
+<a class="nav-tab" href="#" onclick="switchTab('pricing')">
+<i class="fas fa-tags"></i>
+<span>Bảng giá</span>
+</a>
+<a class="nav-tab" href="#" onclick="switchTab('blog')">
+<i class="fas fa-blog"></i>
+<span>Blog</span>
+</a>
+<a class="nav-tab" href="#" onclick="switchTab('contact')">
+<i class="fas fa-envelope"></i>
+<span>Liên hệ</span>
+</a>
+<a class="nav-tab" href="#" onclick="switchTab('faq')">
+<i class="fas fa-question-circle"></i>
+<span>FAQ</span>
+</a>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="main-content">
+<!-- Home Tab -->
+<div class="tab-content active" id="home">
+<section class="hero">
+<h2>Xếp lịch học tự động với Google Calendar</h2>
+<p>Tiết kiệm thời gian, nâng cao hiệu quả học tập với công cụ tự động hóa lịch học dành riêng cho sinh viên UEH</p>
+<div class="cta-buttons">
+<a class="btn btn-primary" href="#">
+<i class="fas fa-rocket"></i>
             Thử ngay
           </a>
-          <a href="#" class="btn btn-secondary">
-            <i class="fas fa-play"></i>
+<a class="btn btn-secondary" href="#">
+<i class="fas fa-play"></i>
             Xem demo
           </a>
-        </div>
-      </section>
+</div>
+</section>
+<section class="stats">
+<div class="stat-item">
+<span class="stat-number">4.9/5</span>
+<span class="stat-label">⭐ Đánh giá</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">1500+</span>
+<span class="stat-label">👥 Sinh viên tin dùng</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">500+</span>
+<span class="stat-label">💬 Phản hồi tích cực</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">100%</span>
+<span class="stat-label">🔒 Bảo mật</span>
+</div>
+</section>
+<section class="card-grid">
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-calendar-alt"></i>
+</div>
+<h3>Tự động xếp lịch</h3>
+<p>Tự động import lịch học từ file Excel và LMS, đồng bộ với Google Calendar chỉ trong 1 click.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-bell"></i>
+</div>
+<h3>Nhắc nhở thông minh</h3>
+<p>Nhận thông báo về lịch học, deadline bài tập và các sự kiện quan trọng khác.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-users"></i>
+</div>
+<h3>Hỗ trợ đa tài khoản</h3>
+<p>Quản lý nhiều học kỳ, nhiều lớp học và nhiều tài khoản Google Calendar cùng lúc.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-book"></i>
+</div>
+<h3>Tài liệu miễn phí</h3>
+<p>Tặng kèm tài liệu học tập, cheat sheet và tips học tập hiệu quả dành cho sinh viên UEH.</p>
+</div>
+</section>
+</div>
+<!-- About Tab -->
+<div class="tab-content" id="about">
+<section class="hero">
+<h2>Về UEHer đi học</h2>
+<p>Câu chuyện và sứ mệnh của chúng tôi</p>
+</section>
+<div class="card-grid">
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-lightbulb"></i>
+</div>
+<h3>Sứ mệnh</h3>
+<p>Giúp sinh viên UEH tối ưu hóa thời gian học tập, giảm stress và nâng cao hiệu quả học tập thông qua công nghệ.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-eye"></i>
+</div>
+<h3>Tầm nhìn</h3>
+<p>Trở thành công cụ hỗ trợ số 1 cho sinh viên UEH trong việc quản lý lịch học và hoạt động học tập.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-heart"></i>
+</div>
+<h3>Giá trị cốt lõi</h3>
+<p>Đơn giản, hiệu quả, bảo mật và luôn đặt nhu cầu của sinh viên lên hàng đầu.</p>
+</div>
+</div>
+</div>
+<!-- Services Tab -->
+<div class="tab-content" id="services">
+<section class="hero">
+<h2>Dịch vụ của chúng tôi</h2>
+<p>Giải pháp toàn diện cho việc quản lý lịch học</p>
+</section>
+<div class="card-grid">
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-upload"></i>
+</div>
+<h3>Import lịch học</h3>
+<p>Tự động đọc và xử lý file Excel lịch học từ hệ thống UEH Portal.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-sync"></i>
+</div>
+<h3>Đồng bộ Google Calendar</h3>
+<p>Tự động tạo sự kiện và đồng bộ với Google Calendar cá nhân.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-graduation-cap"></i>
+</div>
+<h3>Quản lý deadline</h3>
+<p>Theo dõi và nhắc nhở deadline từ Canvas, Moodle và các LMS khác.</p>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-chart-bar"></i>
+</div>
+<h3>Báo cáo thống kê</h3>
+<p>Thống kê thời gian học, tỉ lệ tham gia và hiệu quả học tập.</p>
+</div>
+</div>
+</div>
+<!-- Pricing Tab -->
+<div class="tab-content" id="pricing">
+<section class="hero">
+<h2>Bảng giá dịch vụ</h2>
+<p>Chọn gói phù hợp với nhu cầu của bạn</p>
+</section>
+<div class="pricing-grid">
+<div class="pricing-card">
+<div class="pricing-title">Miễn phí</div>
+<div class="pricing-price">0₫</div>
+<div class="pricing-period">Mãi mãi</div>
+<ul class="pricing-features">
+<li><i class="fas fa-check"></i> Xếp lịch học cơ bản</li>
+<li><i class="fas fa-check"></i> Đồng bộ Google Calendar</li>
+<li><i class="fas fa-check"></i> Hỗ trợ 1 tài khoản</li>
+<li><i class="fas fa-check"></i> Tài liệu học tập</li>
+</ul>
+<a class="btn btn-secondary" href="#">Sử dụng ngay</a>
+</div>
+<div class="pricing-card featured">
+<div class="pricing-badge">Phổ biến</div>
+<div class="pricing-title">Premium</div>
+<div class="pricing-price">49₫</div>
+<div class="pricing-period">/ tháng</div>
+<ul class="pricing-features">
+<li><i class="fas fa-check"></i> Tất cả tính năng Miễn phí</li>
+<li><i class="fas fa-check"></i> Hỗ trợ nhiều tài khoản</li>
+<li><i class="fas fa-check"></i> Nhắc nhở thông minh</li>
+<li><i class="fas fa-check"></i> Báo cáo chi tiết</li>
+<li><i class="fas fa-check"></i> Hỗ trợ ưu tiên</li>
+</ul>
+<a class="btn btn-primary" href="#">Nâng cấp ngay</a>
+</div>
+<div class="pricing-card">
+<div class="pricing-title">Enterprise</div>
+<div class="pricing-price">Liên hệ</div>
+<div class="pricing-period">Tùy chỉnh</div>
+<ul class="pricing-features">
+<li><i class="fas fa-check"></i> Tất cả tính năng Premium</li>
+<li><i class="fas fa-check"></i> Tích hợp API</li>
+<li><i class="fas fa-check"></i> Hỗ trợ 24/7</li>
+<li><i class="fas fa-check"></i> Đào tạo nhân viên</li>
+<li><i class="fas fa-check"></i> Tùy chỉnh theo yêu cầu</li>
+</ul>
+<a class="btn btn-secondary" href="#">Liên hệ</a>
+</div>
 
-      <section class="stats">
-        <div class="stat-item">
-          <span class="stat-number">4.9/5</span>
-          <span class="stat-label">⭐ Đánh giá</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">1500+</span>
-          <span class="stat-label">👥 Sinh viên tin dùng</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">500+</span>
-          <span class="stat-label">💬 Phản hồi tích cực</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-number">100%</span>
-          <span class="stat-label">🔒 Bảo mật</span>
-        </div>
-      </section>
 
-      <section class="card-grid">
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-calendar-alt"></i>
-          </div>
-          <h3>Tự động xếp lịch</h3>
-          <p>Tự động import lịch học từ file Excel và LMS, đồng bộ với Google Calendar chỉ trong 1 click.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-bell"></i>
-          </div>
-          <h3>Nhắc nhở thông minh</h3>
-          <p>Nhận thông báo về lịch học, deadline bài tập và các sự kiện quan trọng khác.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-users"></i>
-          </div>
-          <h3>Hỗ trợ đa tài khoản</h3>
-          <p>Quản lý nhiều học kỳ, nhiều lớp học và nhiều tài khoản Google Calendar cùng lúc.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-book"></i>
-          </div>
-          <h3>Tài liệu miễn phí</h3>
-          <p>Tặng kèm tài liệu học tập, cheat sheet và tips học tập hiệu quả dành cho sinh viên UEH.</p>
-        </div>
-      </section>
-    </div>
+<div id="payment-confirmation" style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 2rem;">
+<div style="flex: 1; min-width: 280px; background: #fff5e5; padding: 2rem; border-radius: 12px;">
+<h3 style="color: #1a1a1a;">Thông tin đơn hàng</h3>
+<p><strong>Mã đơn hàng:</strong> <span id="order-code">AI6J6Y</span></p>
+<p><strong>Mô tả:</strong> Thanh toán: Xếp TKB học kỳ</p>
+<p><strong>Số tiền:</strong> <span style="color: #d97706; font-weight: bold;">18.000₫</span></p>
+<p><strong>Giao dịch hết hạn sau:</strong> <span id="countdown" style="font-weight: bold; color: red;">10:00</span></p>
+<p style="margin-top: 1rem;">Gặp khó khăn khi giao dịch? <a href="#" style="color: #2563eb;">Liên hệ</a></p>
+<a href="#" onclick="switchTab('pricing')" style="display: inline-block; margin-top: 1rem; color: #1e40af;">← Quay lại</a>
+</div>
+<div style="flex: 1; min-width: 280px; background: #ffe5ec; padding: 2rem; border-radius: 12px; text-align: center;">
+<h3>Quét mã QR</h3>
+<img alt="Mã QR" src="https://img.vietqr.io/image/970422-123456789-compact.png" style="max-width: 240px; margin: 1rem auto;"/>
+<p>Xem thông tin chuyển khoản</p>
+<p style="font-size: 0.9rem; color: #6b7280;">Nên quét bằng ứng dụng ngân hàng. Momo/VNPAY có thể chậm hơn.</p>
+</div>
+</div>
+<div style="margin-top: 2rem; background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
+<h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">📥 Xác nhận đã chuyển khoản</h3>
+<form id="payment-form">
+<div style="margin-top: 1rem;">
+<label>Email *</label><br/>
+<input name="email" required="" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;" type="email"/>
+</div>
+<div>
+<label>Tên người chuyển khoản *</label><br/>
+<input name="name" required="" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;" type="text"/>
+</div>
+<div>
+<label>Số điện thoại</label><br/>
+<input name="phone" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;" type="text"/>
+</div>
+<div>
+<label>Mã đơn hàng (tự động điền)</label><br/>
+<input id="orderInput" name="order" readonly="" style="width: 100%; padding: 0.75rem; margin-bottom: 1.5rem;" type="text"/>
+</div>
+<button class="btn btn-primary" type="submit">Gửi xác nhận</button>
+</form>
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("orderInput").value = document.getElementById("order-code").textContent;
 
-    <!-- About Tab -->
-    <div id="about" class="tab-content">
-      <section class="hero">
-        <h2>Về UEHer đi học</h2>
-        <p>Câu chuyện và sứ mệnh của chúng tôi</p>
-      </section>
+  let countdown = 600;
+  const el = document.getElementById("countdown");
+  const timer = setInterval(function () {
+    let mins = Math.floor(countdown / 60);
+    let secs = countdown % 60;
+    el.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
+    if (countdown <= 0) clearInterval(timer);
+    countdown--;
+  }, 1000);
+});
 
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-lightbulb"></i>
-          </div>
-          <h3>Sứ mệnh</h3>
-          <p>Giúp sinh viên UEH tối ưu hóa thời gian học tập, giảm stress và nâng cao hiệu quả học tập thông qua công nghệ.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-eye"></i>
-          </div>
-          <h3>Tầm nhìn</h3>
-          <p>Trở thành công cụ hỗ trợ số 1 cho sinh viên UEH trong việc quản lý lịch học và hoạt động học tập.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-heart"></i>
-          </div>
-          <h3>Giá trị cốt lõi</h3>
-          <p>Đơn giản, hiệu quả, bảo mật và luôn đặt nhu cầu của sinh viên lên hàng đầu.</p>
-        </div>
-      </div>
-    </div>
+document.getElementById("payment-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+  const formData = new FormData(e.target);
 
-    <!-- Services Tab -->
-    <div id="services" class="tab-content">
-      <section class="hero">
-        <h2>Dịch vụ của chúng tôi</h2>
-        <p>Giải pháp toàn diện cho việc quản lý lịch học</p>
-      </section>
-
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-upload"></i>
-          </div>
-          <h3>Import lịch học</h3>
-          <p>Tự động đọc và xử lý file Excel lịch học từ hệ thống UEH Portal.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-sync"></i>
-          </div>
-          <h3>Đồng bộ Google Calendar</h3>
-          <p>Tự động tạo sự kiện và đồng bộ với Google Calendar cá nhân.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-graduation-cap"></i>
-          </div>
-          <h3>Quản lý deadline</h3>
-          <p>Theo dõi và nhắc nhở deadline từ Canvas, Moodle và các LMS khác.</p>
-        </div>
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-chart-bar"></i>
-          </div>
-          <h3>Báo cáo thống kê</h3>
-          <p>Thống kê thời gian học, tỉ lệ tham gia và hiệu quả học tập.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pricing Tab -->
-    <div id="pricing" class="tab-content">
-      <section class="hero">
-        <h2>Bảng giá dịch vụ</h2>
-        <p>Chọn gói phù hợp với nhu cầu của bạn</p>
-      </section>
-
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <div class="pricing-title">Miễn phí</div>
-          <div class="pricing-price">0₫</div>
-          <div class="pricing-period">Mãi mãi</div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> Xếp lịch học cơ bản</li>
-            <li><i class="fas fa-check"></i> Đồng bộ Google Calendar</li>
-            <li><i class="fas fa-check"></i> Hỗ trợ 1 tài khoản</li>
-            <li><i class="fas fa-check"></i> Tài liệu học tập</li>
-          </ul>
-          <a href="#" class="btn btn-secondary">Sử dụng ngay</a>
-        </div>
-
-        <div class="pricing-card featured">
-          <div class="pricing-badge">Phổ biến</div>
-          <div class="pricing-title">Premium</div>
-          <div class="pricing-price">49₫</div>
-          <div class="pricing-period">/ tháng</div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> Tất cả tính năng Miễn phí</li>
-            <li><i class="fas fa-check"></i> Hỗ trợ nhiều tài khoản</li>
-            <li><i class="fas fa-check"></i> Nhắc nhở thông minh</li>
-            <li><i class="fas fa-check"></i> Báo cáo chi tiết</li>
-            <li><i class="fas fa-check"></i> Hỗ trợ ưu tiên</li>
-          </ul>
-          <a href="#" class="btn btn-primary">Nâng cấp ngay</a>
-        </div>
-
-        <div class="pricing-card">
-          <div class="pricing-title">Enterprise</div>
-          <div class="pricing-price">Liên hệ</div>
-          <div class="pricing-period">Tùy chỉnh</div>
-          <ul class="pricing-features">
-            <li><i class="fas fa-check"></i> Tất cả tính năng Premium</li>
-            <li><i class="fas fa-check"></i> Tích hợp API</li>
-            <li><i class="fas fa-check"></i> Hỗ trợ 24/7</li>
-            <li><i class="fas fa-check"></i> Đào tạo nhân viên</li>
-            <li><i class="fas fa-check"></i> Tùy chỉnh theo yêu cầu</li>
-          </ul>
-          <a href="#" class="btn btn-secondary">Liên hệ</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Blog Tab -->
-    <div id="blog" class="tab-content">
-      <section class="hero">
-        <h2>Blog & Tin tức</h2>
-        <p>Cập nhật các thông tin mới nhất và tips học tập</p>
-      </section>
-
-      <div class="card-grid">
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-calendar-check"></i>
-          </div>
-          <h3>10 Tips quản lý thời gian hiệu quả cho sinh viên</h3>
-          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">15/06/2025 • 5 phút đọc</p>
-          <p>Khám phá những phương pháp quản lý thời gian được chứng minh khoa học giúp bạn tối ưu hóa việc học...</p>
-          <a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-        </div>
-        
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-graduation-cap"></i>
-          </div>
-          <h3>Cách sử dụng Google Calendar để tăng năng suất học tập</h3>
-          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">12/06/2025 • 7 phút đọc</p>
-          <p>Hướng dẫn chi tiết cách tận dụng tối đa Google Calendar để lên kế hoạch học tập hiệu quả...</p>
-          <a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-        </div>
-        
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-lightbulb"></i>
-          </div>
-          <h3>Xu hướng EdTech 2025: Tương lai của giáo dục số</h3>
-          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">10/06/2025 • 8 phút đọc</p>
-          <p>Tìm hiểu những xu hướng công nghệ giáo dục mới nhất và cách chúng thay đổi cách chúng ta học...</p>
-          <a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-        </div>
-        
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-mobile-alt"></i>
-          </div>
-          <h3>Cập nhật Extension UEHer v2.0 - Những tính năng mới</h3>
-          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">08/06/2025 • 4 phút đọc</p>
-          <p>Khám phá những tính năng mới trong phiên bản 2.0: AI scheduling, sync đa nền tảng...</p>
-          <a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-        </div>
-        
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-users"></i>
-          </div>
-          <h3>Câu chuyện thành công từ cộng đồng UEHers</h3>
-          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">05/06/2025 • 6 phút đọc</p>
-          <p>Chia sẻ từ những sinh viên đã thành công trong việc cải thiện kết quả học tập nhờ UEHer...</p>
-          <a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-        </div>
-        
-        <div class="card">
-          <div class="card-icon">
-            <i class="fas fa-shield-alt"></i>
-          </div>
-          <h3>Bảo mật dữ liệu: Cam kết của UEHer đi học</h3>
-          <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">03/06/2025 • 5 phút đọc</p>
-          <p>Tìm hiểu cách chúng tôi bảo vệ thông tin cá nhân và dữ liệu học tập của bạn...</p>
-          <a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contact Tab -->
-    <div id="contact" class="tab-content">
-      <section class="hero">
-        <h2>Liên hệ & Hỗ trợ</h2>
-        <p>Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
-      </section>
-
-      <div style="display: flex; flex-wrap: wrap; gap: 3rem; margin-bottom: 3rem;">
-        <div>
-          <h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Thông tin liên hệ</h3>
-          <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-            <div style="display: flex; align-items: center; gap: 1rem;">
-              <div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-                <i class="fas fa-envelope"></i>
-              </div>
-              <div>
-                <h4 style="margin-bottom: 0.25rem;">Email</h4>
-                <p style="color: #64748b; margin: 0;">ueherdihoc.contact@gmail.com</p>
-              </div>
-            </div>
-            
-            <div style="display: flex; align-items: center; gap: 1rem;">
-              <div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-                <i class="fab fa-facebook"></i>
-              </div>
-              <div>
-                <h4 style="margin-bottom: 0.25rem;">Facebook</h4>
-                <p style="color: #64748b; margin: 0;">UEHer đi học</p>
-              </div>
-            </div>
-            
-            <div style="display: flex; align-items: center; gap: 1rem;">
-              <div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-                <i class="fas fa-clock"></i>
-              </div>
-              <div>
-                <h4 style="margin-bottom: 0.25rem;">Thời gian hỗ trợ</h4>
-                <p style="color: #64748b; margin: 0;">8:00 - 22:00 (T2-CN)</p>
-              </div>
-            </div>
-            
-            <div style="display: flex; align-items: center; gap: 1rem;">
-              <div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-                <i class="fas fa-map-marker-alt"></i>
-              </div>
-              <div>
-                <h4 style="margin-bottom: 0.25rem;">Địa chỉ</h4>
-                <p style="color: #64748b; margin: 0;">UEH - Đại học Kinh tế TP.HCM</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      <div class="contact-form" style="background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-  <h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem;">Gửi tin nhắn</h3>
-  <form onsubmit="submitContactForm(event)">
-    <div class="form-group" style="margin-bottom: 1rem;">
-      <label for="name" style="font-weight: 500;">Họ và tên *</label>
-      <input type="text" id="name" name="name" required
-             style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
-    </div>
-
-    <div class="form-group" style="margin-bottom: 1rem;">
-      <label for="email" style="font-weight: 500;">Email *</label>
-      <input type="email" id="email" name="email" required
-             style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
-    </div>
-
-    <div class="form-group" style="margin-bottom: 1rem;">
-      <label for="subject" style="font-weight: 500;">Chủ đề</label>
-      <select id="subject" name="subject"
-              style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
-        <option value="support">Hỗ trợ kỹ thuật</option>
-        <option value="feedback">Phản hồi</option>
-        <option value="bug">Báo lỗi</option>
-        <option value="feature">Đề xuất tính năng</option>
-        <option value="other">Khác</option>
-      </select>
-    </div>
-
-    <div class="form-group" style="margin-bottom: 1.5rem;">
-      <label for="message" style="font-weight: 500;">Nội dung *</label>
-      <textarea id="message" name="message" rows="5" required
-                style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light); resize: vertical;"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary"
-            style="width: 100%; padding: 0.85rem; border-radius: 8px; font-weight: 600; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
-      <i class="fas fa-paper-plane"></i>
+  fetch("https://script.google.com/macros/s/AKfycbwcGYwpwf6g5Hh2gyLnZrl5-7Tju6pjmD99zErXYWRSPY9_jesqrrswTIDacPAwOe_2/exec", {
+    method: "POST",
+    body: formData
+  })
+  .then(() => {
+    alert("🎉 Đã gửi xác nhận thanh toán! Chờ duyệt từ admin.");
+    e.target.reset();
+  })
+  .catch(() => {
+    alert("❌ Lỗi gửi! Vui lòng thử lại.");
+  });
+});
+</script>
+</div>
+<!-- Blog Tab -->
+<div class="tab-content" id="blog">
+<section class="hero">
+<h2>Blog &amp; Tin tức</h2>
+<p>Cập nhật các thông tin mới nhất và tips học tập</p>
+</section>
+<div class="card-grid">
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-calendar-check"></i>
+</div>
+<h3>10 Tips quản lý thời gian hiệu quả cho sinh viên</h3>
+<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">15/06/2025 • 5 phút đọc</p>
+<p>Khám phá những phương pháp quản lý thời gian được chứng minh khoa học giúp bạn tối ưu hóa việc học...</p>
+<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-graduation-cap"></i>
+</div>
+<h3>Cách sử dụng Google Calendar để tăng năng suất học tập</h3>
+<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">12/06/2025 • 7 phút đọc</p>
+<p>Hướng dẫn chi tiết cách tận dụng tối đa Google Calendar để lên kế hoạch học tập hiệu quả...</p>
+<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-lightbulb"></i>
+</div>
+<h3>Xu hướng EdTech 2025: Tương lai của giáo dục số</h3>
+<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">10/06/2025 • 8 phút đọc</p>
+<p>Tìm hiểu những xu hướng công nghệ giáo dục mới nhất và cách chúng thay đổi cách chúng ta học...</p>
+<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-mobile-alt"></i>
+</div>
+<h3>Cập nhật Extension UEHer v2.0 - Những tính năng mới</h3>
+<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">08/06/2025 • 4 phút đọc</p>
+<p>Khám phá những tính năng mới trong phiên bản 2.0: AI scheduling, sync đa nền tảng...</p>
+<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-users"></i>
+</div>
+<h3>Câu chuyện thành công từ cộng đồng UEHers</h3>
+<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">05/06/2025 • 6 phút đọc</p>
+<p>Chia sẻ từ những sinh viên đã thành công trong việc cải thiện kết quả học tập nhờ UEHer...</p>
+<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
+</div>
+<div class="card">
+<div class="card-icon">
+<i class="fas fa-shield-alt"></i>
+</div>
+<h3>Bảo mật dữ liệu: Cam kết của UEHer đi học</h3>
+<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">03/06/2025 • 5 phút đọc</p>
+<p>Tìm hiểu cách chúng tôi bảo vệ thông tin cá nhân và dữ liệu học tập của bạn...</p>
+<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
+</div>
+</div>
+</div>
+<!-- Contact Tab -->
+<div class="tab-content" id="contact">
+<section class="hero">
+<h2>Liên hệ &amp; Hỗ trợ</h2>
+<p>Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
+</section>
+<div style="display: flex; flex-wrap: wrap; gap: 3rem; margin-bottom: 3rem;">
+<div>
+<h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Thông tin liên hệ</h3>
+<div style="display: flex; flex-direction: column; gap: 1.5rem;">
+<div style="display: flex; align-items: center; gap: 1rem;">
+<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+<i class="fas fa-envelope"></i>
+</div>
+<div>
+<h4 style="margin-bottom: 0.25rem;">Email</h4>
+<p style="color: #64748b; margin: 0;">ueherdihoc.contact@gmail.com</p>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 1rem;">
+<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+<i class="fab fa-facebook"></i>
+</div>
+<div>
+<h4 style="margin-bottom: 0.25rem;">Facebook</h4>
+<p style="color: #64748b; margin: 0;">UEHer đi học</p>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 1rem;">
+<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+<i class="fas fa-clock"></i>
+</div>
+<div>
+<h4 style="margin-bottom: 0.25rem;">Thời gian hỗ trợ</h4>
+<p style="color: #64748b; margin: 0;">8:00 - 22:00 (T2-CN)</p>
+</div>
+</div>
+<div style="display: flex; align-items: center; gap: 1rem;">
+<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
+<i class="fas fa-map-marker-alt"></i>
+</div>
+<div>
+<h4 style="margin-bottom: 0.25rem;">Địa chỉ</h4>
+<p style="color: #64748b; margin: 0;">UEH - Đại học Kinh tế TP.HCM</p>
+</div>
+</div>
+</div>
+</div>
+<div class="contact-form" style="background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+<h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem;">Gửi tin nhắn</h3>
+<form onsubmit="submitContactForm(event)">
+<div class="form-group" style="margin-bottom: 1rem;">
+<label for="name" style="font-weight: 500;">Họ và tên *</label>
+<input id="name" name="name" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);" type="text"/>
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+<label for="email" style="font-weight: 500;">Email *</label>
+<input id="email" name="email" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);" type="email"/>
+</div>
+<div class="form-group" style="margin-bottom: 1rem;">
+<label for="subject" style="font-weight: 500;">Chủ đề</label>
+<select id="subject" name="subject" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
+<option value="support">Hỗ trợ kỹ thuật</option>
+<option value="feedback">Phản hồi</option>
+<option value="bug">Báo lỗi</option>
+<option value="feature">Đề xuất tính năng</option>
+<option value="other">Khác</option>
+</select>
+</div>
+<div class="form-group" style="margin-bottom: 1.5rem;">
+<label for="message" style="font-weight: 500;">Nội dung *</label>
+<textarea id="message" name="message" required="" rows="5" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light); resize: vertical;"></textarea>
+</div>
+<button class="btn btn-primary" style="width: 100%; padding: 0.85rem; border-radius: 8px; font-weight: 600; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px;" type="submit">
+<i class="fas fa-paper-plane"></i>
       Gửi tin nhắn
     </button>
-  </form>
+</form>
 </div>
 </div>
-  
-
-      <!-- FAQ Preview -->
-      <div style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
-        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Câu hỏi thường gặp</h3>
-        <p style="color: #64748b; margin-bottom: 1.5rem;">Không tìm thấy câu trả lời? Xem thêm trong mục FAQ hoặc liên hệ trực tiếp với chúng tôi.</p>
-        <a href="#" onclick="switchTab('faq')" class="btn btn-secondary">
-          <i class="fas fa-question-circle"></i>
+<!-- FAQ Preview -->
+<div style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
+<h3 style="color: var(--primary-color); margin-bottom: 1rem;">Câu hỏi thường gặp</h3>
+<p style="color: #64748b; margin-bottom: 1.5rem;">Không tìm thấy câu trả lời? Xem thêm trong mục FAQ hoặc liên hệ trực tiếp với chúng tôi.</p>
+<a class="btn btn-secondary" href="#" onclick="switchTab('faq')">
+<i class="fas fa-question-circle"></i>
           Xem tất cả FAQ
         </a>
-      </div>
-    </div>
-
-    <!-- FAQ Tab -->
-    <div id="faq" class="tab-content">
-      <section class="hero">
-        <h2>Câu hỏi thường gặp</h2>
-        <p>Tìm câu trả lời cho những thắc mắc của bạn</p>
-      </section>
-
-      <div style="max-width: 800px; margin: 0 auto;">
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>📌 Extension UEHer đi học có dễ sử dụng không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Hoàn toàn! Extension được thiết kế với giao diện đơn giản, trực quan. Chỉ cần vài cú click chuột, bạn đã có thể tự động xếp lịch học lên Google Calendar. Chúng tôi cũng cung cấp hướng dẫn chi tiết và video demo để bạn có thể bắt đầu ngay lập tức.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>🔐 Có cần cấp quyền truy cập Google Calendar không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Có, để tạo và quản lý các sự kiện học tập trên Google Calendar của bạn, extension cần được cấp quyền truy cập. Tuy nhiên, chúng tôi chỉ yêu cầu quyền tối thiểu cần thiết và cam kết không lưu trữ hay chia sẻ dữ liệu cá nhân của bạn với bên thứ ba.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>🛡️ Dữ liệu cá nhân của tôi có được bảo mật không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Bảo mật là ưu tiên hàng đầu của chúng tôi. Dữ liệu chỉ được xử lý tạm thời để tạo lịch học và không được lưu trữ trên server. Tất cả thông tin được mã hóa và tuân thủ các tiêu chuẩn bảo mật quốc tế. Bạn có thể yên tâm về việc bảo vệ thông tin cá nhân.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>📊 Extension có hỗ trợ file Excel từ UEH Portal không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Có! Extension được thiết kế đặc biệt để đọc và xử lý file Excel lịch học từ hệ thống UEH Portal. Chúng tôi thường xuyên cập nhật để đảm bảo tương thích với các thay đổi trong định dạng file từ nhà trường.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>🎓 Có hỗ trợ nhiều học kỳ cùng lúc không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Hoàn toàn có! Extension hỗ trợ quản lý nhiều học kỳ, nhiều lớp học và thậm chí nhiều tài khoản Google Calendar cùng lúc. Bạn có thể dễ dàng chuyển đổi giữa các học kỳ khác nhau và tùy chỉnh cài đặt cho từng lịch riêng biệt.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>💰 Extension có miễn phí không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Chúng tôi cung cấp phiên bản miễn phí với đầy đủ tính năng cơ bản. Đối với những ai muốn trải nghiệm thêm các tính năng nâng cao như báo cáo chi tiết, hỗ trợ ưu tiên, có thể nâng cấp lên gói Premium chỉ với 49k/tháng.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>📱 Có ứng dụng mobile không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Hiện tại chúng tôi chỉ có Extension cho trình duyệt, nhưng ứng dụng mobile đang trong quá trình phát triển và sẽ ra mắt trong thời gian tới. Bạn có thể đăng ký để nhận thông báo khi ứng dụng mobile chính thức phát hành.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>🆘 Tôi gặp lỗi khi sử dụng, phải làm sao?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Đừng lo lắng! Bạn có thể liên hệ với team hỗ trợ qua Facebook fanpage "UEHer đi học" hoặc email support@ueher.edu.vn. Chúng tôi cam kết phản hồi trong vòng 24h và hỗ trợ giải quyết mọi vấn đề bạn gặp phải.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-question" onclick="toggleFaq(this)">
-            <span>🎁 Có tài liệu học tập miễn phí không?</span>
-            <i class="fas fa-chevron-down"></i>
-          </div>
-          <div class="faq-answer">
-            <p>Có! Khi sử dụng extension, bạn sẽ được tặng kèm bộ tài liệu học tập, cheat sheets và tips học tập hiệu quả được tổng hợp từ các sinh viên xuất sắc UEH. Tài liệu được cập nhật thường xuyên và hoàn toàn miễn phí.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>UEHer đi học</h3>
-        <p>Giải pháp xếp lịch học thông minh dành cho sinh viên UEH. Tiết kiệm thời gian, nâng cao hiệu quả học tập.</p>
-        <div class="social-links">
-          <a href="https://www.facebook.com/profile.php?id=61569864908193"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
-        </div>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Sản phẩm</h3>
-        <a href="#">Chrome Extension</a><br>
-        <a href="#">Web App</a><br>
-        <a href="#">Mobile App (Sắp ra mắt)</a><br>
-        <a href="#">API cho developers</a>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Hỗ trợ</h3>
-        <a href="#">Trung tâm trợ giúp</a><br>
-        <a href="#">Hướng dẫn sử dụng</a><br>
-        <a href="#">Video tutorials</a><br>
-        <a href="#">Liên hệ hỗ trợ</a>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Công ty</h3>
-        <a href="#">Về chúng tôi</a><br>
-        <a href="#">Blog</a><br>
-        <a href="#">Tuyển dụng</a><br>
-        <a href="#">Điều khoản dịch vụ</a><br>
-        <a href="#">Chính sách bảo mật</a>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p>&copy; 2025 UEHer đi học. Tất cả các quyền được bảo lưu. Được phát triển với ❤️ bởi sinh viên UEH.</p>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script>
+</div>
+</div>
+<!-- FAQ Tab -->
+<div class="tab-content" id="faq">
+<section class="hero">
+<h2>Câu hỏi thường gặp</h2>
+<p>Tìm câu trả lời cho những thắc mắc của bạn</p>
+</section>
+<div style="max-width: 800px; margin: 0 auto;">
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>📌 Extension UEHer đi học có dễ sử dụng không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Hoàn toàn! Extension được thiết kế với giao diện đơn giản, trực quan. Chỉ cần vài cú click chuột, bạn đã có thể tự động xếp lịch học lên Google Calendar. Chúng tôi cũng cung cấp hướng dẫn chi tiết và video demo để bạn có thể bắt đầu ngay lập tức.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>🔐 Có cần cấp quyền truy cập Google Calendar không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Có, để tạo và quản lý các sự kiện học tập trên Google Calendar của bạn, extension cần được cấp quyền truy cập. Tuy nhiên, chúng tôi chỉ yêu cầu quyền tối thiểu cần thiết và cam kết không lưu trữ hay chia sẻ dữ liệu cá nhân của bạn với bên thứ ba.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>🛡️ Dữ liệu cá nhân của tôi có được bảo mật không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Bảo mật là ưu tiên hàng đầu của chúng tôi. Dữ liệu chỉ được xử lý tạm thời để tạo lịch học và không được lưu trữ trên server. Tất cả thông tin được mã hóa và tuân thủ các tiêu chuẩn bảo mật quốc tế. Bạn có thể yên tâm về việc bảo vệ thông tin cá nhân.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>📊 Extension có hỗ trợ file Excel từ UEH Portal không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Có! Extension được thiết kế đặc biệt để đọc và xử lý file Excel lịch học từ hệ thống UEH Portal. Chúng tôi thường xuyên cập nhật để đảm bảo tương thích với các thay đổi trong định dạng file từ nhà trường.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>🎓 Có hỗ trợ nhiều học kỳ cùng lúc không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Hoàn toàn có! Extension hỗ trợ quản lý nhiều học kỳ, nhiều lớp học và thậm chí nhiều tài khoản Google Calendar cùng lúc. Bạn có thể dễ dàng chuyển đổi giữa các học kỳ khác nhau và tùy chỉnh cài đặt cho từng lịch riêng biệt.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>💰 Extension có miễn phí không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Chúng tôi cung cấp phiên bản miễn phí với đầy đủ tính năng cơ bản. Đối với những ai muốn trải nghiệm thêm các tính năng nâng cao như báo cáo chi tiết, hỗ trợ ưu tiên, có thể nâng cấp lên gói Premium chỉ với 49k/tháng.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>📱 Có ứng dụng mobile không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Hiện tại chúng tôi chỉ có Extension cho trình duyệt, nhưng ứng dụng mobile đang trong quá trình phát triển và sẽ ra mắt trong thời gian tới. Bạn có thể đăng ký để nhận thông báo khi ứng dụng mobile chính thức phát hành.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>🆘 Tôi gặp lỗi khi sử dụng, phải làm sao?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Đừng lo lắng! Bạn có thể liên hệ với team hỗ trợ qua Facebook fanpage "UEHer đi học" hoặc email support@ueher.edu.vn. Chúng tôi cam kết phản hồi trong vòng 24h và hỗ trợ giải quyết mọi vấn đề bạn gặp phải.</p>
+</div>
+</div>
+<div class="faq-item">
+<div class="faq-question" onclick="toggleFaq(this)">
+<span>🎁 Có tài liệu học tập miễn phí không?</span>
+<i class="fas fa-chevron-down"></i>
+</div>
+<div class="faq-answer">
+<p>Có! Khi sử dụng extension, bạn sẽ được tặng kèm bộ tài liệu học tập, cheat sheets và tips học tập hiệu quả được tổng hợp từ các sinh viên xuất sắc UEH. Tài liệu được cập nhật thường xuyên và hoàn toàn miễn phí.</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="footer">
+<div class="footer-content">
+<div class="footer-section">
+<h3>UEHer đi học</h3>
+<p>Giải pháp xếp lịch học thông minh dành cho sinh viên UEH. Tiết kiệm thời gian, nâng cao hiệu quả học tập.</p>
+<div class="social-links">
+<a href="https://www.facebook.com/profile.php?id=61569864908193"><i class="fab fa-facebook"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+<a href="#"><i class="fab fa-youtube"></i></a>
+</div>
+</div>
+<div class="footer-section">
+<h3>Sản phẩm</h3>
+<a href="#">Chrome Extension</a><br/>
+<a href="#">Web App</a><br/>
+<a href="#">Mobile App (Sắp ra mắt)</a><br/>
+<a href="#">API cho developers</a>
+</div>
+<div class="footer-section">
+<h3>Hỗ trợ</h3>
+<a href="#">Trung tâm trợ giúp</a><br/>
+<a href="#">Hướng dẫn sử dụng</a><br/>
+<a href="#">Video tutorials</a><br/>
+<a href="#" onclick="switchTab('contact')">Liên hệ hỗ trợ</a>
+</div>
+<div class="footer-section">
+<h3>Công ty</h3>
+<a href="#" onclick="switchTab('about')">Về chúng tôi</a><br/>
+<a href="#" onclick="switchTab('blog')">Blog</a><br/>
+<a href="#">Tuyển dụng</a><br/>
+<a href="#" onclick="switchTab('services')">Dịch vụ</a><br/>
+</div>
+</div>
+<div class="footer-bottom">
+<p>© 2025 UEHer đi học. Tất cả các quyền được bảo lưu. Được phát triển với ❤️ bởi sinh viên UEH.</p>
+</div>
+</footer>
+<!-- Scripts -->
+<script>
     // Tab switching functionality
     function switchTab(tabName) {
       // Hide all tab contents
@@ -1230,6 +1252,7 @@
         // Add Vietnamese translation logic here
       }
     }
+    
 
     // FAQ toggle functionality
     function toggleFaq(element) {
@@ -1287,8 +1310,6 @@
     }).showToast();
   });
 }
-
-
 
     // Initialize theme on page load
     document.addEventListener('DOMContentLoaded', function() {

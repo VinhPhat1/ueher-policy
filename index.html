@@ -621,6 +621,7 @@
 </button>
 </div>
 </div>
+
 </header>
 <!-- Navigation -->
 <nav class="nav-container">
@@ -654,7 +655,7 @@
 <i class="fas fa-question-circle"></i>
 <span>FAQ</span>
 </a>
-</div>
+<a class="nav-tab" href="#" onclick="switchTab('privacy')"><i class="fas fa-user-shield"></i> Chính sách</a></div>
 </div>
 </nav>
 <!-- Main Content -->
@@ -837,79 +838,7 @@
 </ul>
 <a class="btn btn-secondary" href="#">Liên hệ</a>
 </div>
-
-
-<div id="payment-confirmation" style="margin-top: 3rem; display: flex; flex-wrap: wrap; gap: 2rem;">
-<div style="flex: 1; min-width: 280px; background: #fff5e5; padding: 2rem; border-radius: 12px;">
-<h3 style="color: #1a1a1a;">Thông tin đơn hàng</h3>
-<p><strong>Mã đơn hàng:</strong> <span id="order-code">AI6J6Y</span></p>
-<p><strong>Mô tả:</strong> Thanh toán: Xếp TKB học kỳ</p>
-<p><strong>Số tiền:</strong> <span style="color: #d97706; font-weight: bold;">18.000₫</span></p>
-<p><strong>Giao dịch hết hạn sau:</strong> <span id="countdown" style="font-weight: bold; color: red;">10:00</span></p>
-<p style="margin-top: 1rem;">Gặp khó khăn khi giao dịch? <a href="#" style="color: #2563eb;">Liên hệ</a></p>
-<a href="#" onclick="switchTab('pricing')" style="display: inline-block; margin-top: 1rem; color: #1e40af;">← Quay lại</a>
 </div>
-<div style="flex: 1; min-width: 280px; background: #ffe5ec; padding: 2rem; border-radius: 12px; text-align: center;">
-<h3>Quét mã QR</h3>
-<img alt="Mã QR" src="https://img.vietqr.io/image/970422-123456789-compact.png" style="max-width: 240px; margin: 1rem auto;"/>
-<p>Xem thông tin chuyển khoản</p>
-<p style="font-size: 0.9rem; color: #6b7280;">Nên quét bằng ứng dụng ngân hàng. Momo/VNPAY có thể chậm hơn.</p>
-</div>
-</div>
-<div style="margin-top: 2rem; background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
-<h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">📥 Xác nhận đã chuyển khoản</h3>
-<form id="payment-form">
-<div style="margin-top: 1rem;">
-<label>Email *</label><br/>
-<input name="email" required="" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;" type="email"/>
-</div>
-<div>
-<label>Tên người chuyển khoản *</label><br/>
-<input name="name" required="" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;" type="text"/>
-</div>
-<div>
-<label>Số điện thoại</label><br/>
-<input name="phone" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;" type="text"/>
-</div>
-<div>
-<label>Mã đơn hàng (tự động điền)</label><br/>
-<input id="orderInput" name="order" readonly="" style="width: 100%; padding: 0.75rem; margin-bottom: 1.5rem;" type="text"/>
-</div>
-<button class="btn btn-primary" type="submit">Gửi xác nhận</button>
-</form>
-</div>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("orderInput").value = document.getElementById("order-code").textContent;
-
-  let countdown = 600;
-  const el = document.getElementById("countdown");
-  const timer = setInterval(function () {
-    let mins = Math.floor(countdown / 60);
-    let secs = countdown % 60;
-    el.textContent = (mins < 10 ? '0' : '') + mins + ':' + (secs < 10 ? '0' : '') + secs;
-    if (countdown <= 0) clearInterval(timer);
-    countdown--;
-  }, 1000);
-});
-
-document.getElementById("payment-form").addEventListener("submit", function(e) {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-
-  fetch("https://script.google.com/macros/s/AKfycbwcGYwpwf6g5Hh2gyLnZrl5-7Tju6pjmD99zErXYWRSPY9_jesqrrswTIDacPAwOe_2/exec", {
-    method: "POST",
-    body: formData
-  })
-  .then(() => {
-    alert("🎉 Đã gửi xác nhận thanh toán! Chờ duyệt từ admin.");
-    e.target.reset();
-  })
-  .catch(() => {
-    alert("❌ Lỗi gửi! Vui lòng thử lại.");
-  });
-});
-</script>
 </div>
 <!-- Blog Tab -->
 <div class="tab-content" id="blog">
@@ -1152,6 +1081,25 @@ document.getElementById("payment-form").addEventListener("submit", function(e) {
 <p>Có! Khi sử dụng extension, bạn sẽ được tặng kèm bộ tài liệu học tập, cheat sheets và tips học tập hiệu quả được tổng hợp từ các sinh viên xuất sắc UEH. Tài liệu được cập nhật thường xuyên và hoàn toàn miễn phí.</p>
 </div>
 </div>
+</div>
+</div>
+
+<div class="tab-content" id="privacy">
+<section class="hero">
+<h2>Chính sách quyền riêng tư</h2>
+<p>Chúng tôi cam kết bảo vệ thông tin cá nhân và quyền riêng tư của người dùng.</p>
+</section>
+<div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #64748b;">
+<h3>1. Mục đích thu thập</h3>
+<p>Chúng tôi thu thập thông tin người dùng để cung cấp dịch vụ xếp lịch học, hỗ trợ kỹ thuật và cải thiện trải nghiệm người dùng.</p>
+<h3>2. Phạm vi sử dụng thông tin</h3>
+<p>Thông tin sẽ chỉ được sử dụng nội bộ và không chia sẻ với bên thứ ba trừ khi có sự cho phép rõ ràng từ người dùng.</p>
+<h3>3. Lưu trữ và bảo mật</h3>
+<p>Dữ liệu được lưu trữ tạm thời và xử lý bảo mật theo tiêu chuẩn quốc tế. Mọi kết nối và thao tác đều được mã hóa.</p>
+<h3>4. Quyền của người dùng</h3>
+<p>Bạn có quyền yêu cầu chỉnh sửa hoặc xóa thông tin cá nhân bất cứ lúc nào bằng cách liên hệ với chúng tôi qua email.</p>
+<h3>5. Liên hệ</h3>
+<p>Mọi thắc mắc liên quan đến chính sách bảo mật, vui lòng gửi email đến <strong>ueherdihoc.contact@gmail.com</strong>.</p>
 </div>
 </div>
 </main>

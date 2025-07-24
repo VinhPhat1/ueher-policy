@@ -1,1300 +1,386 @@
 <!DOCTYPE html>
-
 <html lang="vi">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>UEHer đi học - Xếp lịch học với Google Calendar</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<link href="logo.jpg" rel="icon" type="image/jpeg"/>
-<style>
-    :root {
-    --primary-color: #204584;
-    --secondary-color: #38a3a5;
-    --accent-color: #ffd166;
-    --accent-color2: #6c63ff;
-    --bg-light: #f3f6fa;
-    --bg-dark: #19233a;
-    --text-light: #1a2a41;
-    --text-dark: #fff;
-    --card-bg: #ffffff;
-    --card-bg-dark: #274472;
-    --border-color: #bed4e7;
-    --shadow: 0 6px 24px -4px rgba(32,69,132,0.13);
-    --shadow-lg: 0 14px 32px -8px rgba(32,69,132,0.19);
-  }
-  [data-theme="dark"] {
-    --bg-light: #19233a;
-    --text-light: #fff; 
-    --card-bg: #223459;
-    --border-color: #355179;
-  }
-
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UEHer đi học - Lịch học UEH auto đồng bộ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="icon" href="logo.jpg" type="image/jpeg"/>
+  <style>
+    body {margin:0; background: #f7fafd; color:#18264a; font-family:'Inter',sans-serif; line-height:1.7;}
+    /* HERO */
+    .hero-unical {padding:60px 0 48px 0; background: #f7fafd; min-height:410px; position:relative; overflow:hidden;}
+    .hero-pattern {position:absolute;z-index:0;top:0;left:0;width:100%;height:100%;}
+    .hero-content {position:relative;z-index:2;max-width:630px;margin:0 auto;text-align:center;}
+    .hero-logo {width:60px;height:60px;border-radius:16px;margin-bottom:20px;box-shadow:0 4px 20px rgba(30,53,140,0.09);}
+    .hero-unical h1 {font-size:2.7rem; font-weight:900;letter-spacing:-1px;line-height:1.15;color:#18409a;margin-bottom:12px;}
+    .hero-unical .hero-desc {font-size:1.18rem;color:#4a5a74;margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto;}
+    .hero-cta {display:inline-flex;align-items:center;gap:8px;background:linear-gradient(90deg,#18409a,#2ca9e2);color:#fff;font-size:1.14rem;font-weight:700;border-radius:28px;padding:1rem 2.5rem 1rem 2rem;text-decoration:none;box-shadow:0 2px 16px rgba(44,169,226,0.08);margin-bottom:16px;transition:background 0.2s;}
+    .hero-cta:hover {background:linear-gradient(90deg,#2ca9e2,#18409a);}
+    .hero-badges {margin-top:14px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;}
+    .hero-badge {font-size:0.98rem;border-radius:8px;padding:5px 14px;display:inline-flex;align-items:center;gap:6px;font-weight:600;}
+    .badge-free {background:#eaf9e3;color:#44b058;}
+    .badge-ueh {background:#e3eef9;color:#2666a2;}
+    .badge-fast {background:#fdf7e7;color:#c99a24;}
+    /* FEATURES */
+    .section { max-width:1100px; margin:0 auto; padding:60px 20px 0 20px;}
+    .section-title {text-align:center;font-size:2rem;font-weight:800;color:#18409a;margin-bottom:22px;letter-spacing:-1px;}
+    .features {display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2.2rem;margin:38px 0;}
+    .feature-card {background:#fff; border-radius:18px; box-shadow:0 6px 24px -4px rgba(30,53,140,0.08);padding:36px 24px; text-align:center; transition:box-shadow 0.2s,transform 0.2s; position:relative;border: 1.5px solid #f1f4fa;}
+    .feature-card:hover {box-shadow:0 16px 32px -8px rgba(30,53,140,0.13); transform:translateY(-4px) scale(1.02);}
+    .feature-icon {width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#18409a,#23c6f3);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.8rem;}
+    .feature-title {font-size:1.15rem;font-weight:700;margin-bottom:8px;color:#18409a;}
+    .feature-desc {color:#5a6988;font-size:1.05rem;}
+    /* HOWTO (SO LE Ngang) */
+    .howto-section {max-width:1120px;margin:0 auto 50px auto;padding:60px 20px 0 20px;}
+    .howto-step-row {display:flex;align-items:center;gap:48px;margin-bottom:56px;background:#fff;border-radius:22px;box-shadow:0 8px 32px -12px rgba(25,73,156,0.07);padding:38px 32px;}
+    .howto-step-row.reverse { flex-direction: row-reverse; }
+    .howto-step-text {flex:1.15;}
+    .howto-step-img {flex:1;display:flex;justify-content:center;}
+    .howto-step-img img {max-width:600px; width:100%; border-radius: 14px; box-shadow:0 2px 20px rgba(20,80,160,0.08);}
+    .howto-step-num {display: inline-flex;align-items: center;justify-content: center;font-size: 1.44rem;font-weight: 800;color: #fff;background: linear-gradient(120deg,#23c6f3,#18409a);border-radius: 50%;width: 48px; height: 48px;box-shadow:0 2px 12px rgba(44,169,226,0.09);margin-bottom: 13px;}
+    .howto-step-title {font-size: 1.25rem;font-weight: 800;margin-bottom: 8px;color: #18409a;}
+    .howto-step-desc {color: #425065;font-size: 1.1rem;margin-bottom: 7px;}
+    @media (max-width: 900px) {
+      .howto-step-row, .howto-step-row.reverse {flex-direction: column!important; gap:18px; padding: 18px 7px;}
+      .howto-step-img img { max-width:90vw; }
     }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg-light);
-      color: var(--text-light);
-      line-height: 1.6;
-      transition: all 0.3s ease;
-    }
-
-    /* Header */
-    .header {
-      background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-      color: var(--text-dark);
-      padding: 2rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .header::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.05)"><polygon points="0,0 1000,0 1000,100 0,80"/></svg>') no-repeat center bottom;
-      background-size: cover;
-    }
-
-    .header-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      position: relative;
-      z-index: 2;
-    }
-
-    .logo-section {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .logo {
-      width: 60px;
-      height: 60px;
-      background: var(--accent-color);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: white;
-      font-size: 1.5rem;
-    }
-
-    .logo-text h1 {
-      color: white;
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-    }
-
-    .logo-text p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.9rem;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-    }
-
-    .theme-toggle, .lang-toggle {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-size: 0.9rem;
-    }
-
-    .theme-toggle:hover, .lang-toggle:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    /* Navigation */
-    .nav-container {
-      background: var(--card-bg);
-      box-shadow: var(--shadow);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .nav-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    .nav-tabs {
-      display: flex;
-      gap: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-
-    .nav-tabs::-webkit-scrollbar {
-      display: none;
-    }
-
-    .nav-tab {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 1.5rem;
-      color: var(--text-light);
-      text-decoration: none;
-      border-bottom: 3px solid transparent;
-      transition: all 0.3s ease;
-      white-space: nowrap;
-      font-weight: 500;
-    }
-
-    .nav-tab:hover {
-      background: rgba(0, 95, 105, 0.05);
-      color: var(--primary-color);
-    }
-
-    .nav-tab.active {
-      color: var(--primary-color);
-      border-bottom-color: var(--accent-color);
-      background: rgba(0, 95, 105, 0.05);
-    }
-
-    .nav-tab i {
-      font-size: 1.1rem;
-    }
-
-    /* Main Content */
-    .main-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-      animation: fadeIn 0.5s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-
-    .hero h2 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-
-    .hero p {
-      font-size: 1.2rem;
-      color: #64748b;
-      max-width: 600px;
-      margin: 0 auto 2rem;
-    }
-
-    .cta-buttons {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 0.75rem 2rem;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-primary {
-      background: var(--primary-color);
-      color: #fff;
-      font-weight: 700;
-      border: none;
-    }
-    .btn-primary:hover {
-      background: var(--secondary-color);
-      color: #fff;
-    }
-    .btn-secondary {
-      background: var(--accent-color);
-      color: var(--primary-color);
-      border: 2px solid var(--accent-color);
-    }
-    .btn-secondary:hover {
-      background: var(--accent-color2);
-      color: #fff;
-    }
-
-
-    /* Cards */
-    .card-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-bottom: 3rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      padding: 2rem;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border-color);
-      transition: all 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .card-icon {
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--accent-color), #ff8c42);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .card h3 {
-      color: var(--primary-color);
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 1rem;
-    }
-
-    .card p {
-      color: #64748b;
-      line-height: 1.6;
-    }
-
-    /* Stats */
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-      margin: 3rem 0;
-    }
-
-    .stat-item {
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .stat-number {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--accent-color);
-      display: block;
-    }
-
-    .stat-label {
-      color: #64748b;
-      font-size: 1rem;
-      margin-top: 0.5rem;
-    }
-
-    /* Pricing */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin: 2rem 0;
-    }
-
-    .pricing-card {
-      background: var(--card-bg);
-      border: 2px solid var(--border-color);
-      border-radius: 16px;
-      padding: 2rem;
-      text-align: center;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .pricing-card.featured {
-      border-color: var(--accent-color);
-      transform: scale(1.05);
-    }
-
-    .pricing-card:hover {
-      box-shadow: var(--shadow-lg);
-    }
-
-    .pricing-badge {
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--accent-color);
-      color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .pricing-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-bottom: 1rem;
-    }
-
-    .pricing-price {
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--accent-color);
-      margin-bottom: 0.5rem;
-    }
-
-    .pricing-period {
-      color: #64748b;
-      margin-bottom: 2rem;
-    }
-
-    .pricing-features {
-      list-style: none;
-      margin-bottom: 2rem;
-    }
-
-    .pricing-features li {
-      padding: 0.5rem 0;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .pricing-features li i {
-      color: #22c55e;
-    }
-
-      .contact-form {
-      background: var(--card-bg);
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-      flex: 1;
-      min-width: 300px;
-    }
-
-
-    .form-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      color: var(--text-light);
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
-      background: var(--card-bg);
-      color: var(--text-light);
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--accent-color);
-    }
-
+    /* ABOUT & PRIVACY */
+    .about-section,.privacy-section {max-width:950px;margin:0 auto 52px auto;}
+    .about-content {background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(20,60,130,0.08);padding:36px 30px 32px 30px;color:#344063;font-size:1.13rem;text-align:center;}
+    .privacy-content {background:#fff;border-radius:16px;box-shadow:0 4px 20px rgba(40,80,170,0.07);padding:36px 30px 32px 30px;color:#425065;font-size:1.08rem;}
     /* FAQ */
-    .faq-item {
-      background: var(--card-bg);
-      border-radius: 12px;
-      margin-bottom: 1rem;
-      border: 1px solid var(--border-color);
-      overflow: hidden;
+    .faq-section {max-width:780px;margin:0 auto 0 auto;padding-bottom:38px;}
+    .faq-title {text-align:center;font-size:1.37rem;font-weight:800;color:#18409a;margin-bottom:16px;}
+    .faq-list {margin:0 auto;padding:0;}
+    .faq-item {margin-bottom:13px;background:#fff;border-radius:12px;border:1.5px solid #f2f4f9;box-shadow:0 6px 24px -4px rgba(30,53,140,0.06);}
+    .faq-q {padding:1.13rem 1.18rem;font-weight:700;cursor:pointer;color:#18409a;background:#f5f7fa;display:flex;align-items:center;justify-content:space-between;transition:background 0.18s;}
+    .faq-q:hover {background:#23c6f3;color:#fff;}
+    .faq-a {padding:1rem 1.18rem 1.32rem 1.18rem;color:#466283;font-size:1.04rem;display:none;}
+    .faq-item.active .faq-a {display:block;}
+    .faq-item.active .faq-q {background:#18409a;color:#fff;}
+    /* CONTACT */
+    .contact-section {max-width:660px;margin:56px auto 0 auto;background:#fff;border-radius:18px;box-shadow:0 6px 24px -4px rgba(30,53,140,0.10);padding:38px 28px;border:1.5px solid #f1f4fa;}
+    .contact-title {font-size:1.17rem;font-weight:800;color:#18409a;margin-bottom:8px;text-align:center;}
+    .contact-desc {color:#566177;margin-bottom:23px;text-align:center;}
+    .contact-form {max-width:480px;margin:0 auto;}
+    .form-group {margin-bottom:1.3rem;}
+    .form-group label {display:block;margin-bottom:0.45rem;font-weight:600;color:#18264a;}
+    .form-group input,.form-group textarea,.form-group select {width:100%;padding:0.75rem;border:1.1px solid #e2e6ee;border-radius:8px;font-size:1rem;background:#f7fafd;color:#223153;}
+    .form-group input:focus,.form-group textarea:focus,.form-group select:focus {outline:none;border-color:#23c6f3;background:#fff;}
+    .btn-send {width:100%;padding:0.95rem;border-radius:8px;font-weight:800;font-size:1.05rem;background:linear-gradient(90deg,#18409a,#23c6f3);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background 0.2s;}
+    .btn-send:hover {background:linear-gradient(90deg,#23c6f3,#18409a);}
+    /* FOOTER */
+    .footer {background:linear-gradient(90deg,#18409a,#23c6f3);color:#fff;text-align:center;padding:32px 10px 16px 10px;margin-top:52px;border-top-left-radius:32px;border-top-right-radius:32px;font-size:1rem;}
+    /* Loading Spinner */
+    .loading {display:inline-block;width:20px;height:20px;border:2px solid rgba(255,255,255,0.3);border-radius:50%;border-top-color:#fff;animation:spin 1s ease-in-out infinite;}
+    @keyframes spin {to {transform:rotate(360deg);}}
+    @media (max-width:750px){
+      .section {padding-top:30px;}
+      .hero-unical h1 {font-size:2rem;}
+      .hero-unical .hero-desc {font-size:1rem;}
+      .howto-step-row,.howto-step-row.reverse{padding:12px 3px;}
+      .about-content,.privacy-content{padding:16px 8px;}
     }
+    .howto-step-row {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  margin-bottom: 56px;
+  background: linear-gradient(135deg, #e9f4ff 60%, #f7fafd 100%); /* Nền xanh pastel dịu */
+  border-radius: 22px;
+  box-shadow: 0 8px 32px -12px rgba(25,73,156,0.07);
+  padding: 38px 32px;
+  border: none;
+  transition: background 0.24s;
+}
+.howto-step-row.reverse { flex-direction: row-reverse; }
+.howto-step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.44rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(120deg,#23c6f3,#18409a);
+  border-radius: 50%;
+  width: 48px; height: 48px;
+  box-shadow:0 2px 12px rgba(44,169,226,0.09);
+  margin-bottom: 13px;
+}
+.howto-step-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #18409a;
+}
+.howto-step-desc {
+  color: #425065;
+  font-size: 1.1rem;
+  margin-bottom: 7px;
+}
+.howto-step-text { flex: 1.15; }
+.howto-step-img { flex: 1; display: flex; justify-content: center; }
+.howto-step-img img { max-width: 350px; width: 100%; border-radius: 14px; box-shadow:0 2px 20px rgba(20,80,160,0.08);}
+@media (max-width: 900px) {
+  .howto-step-row, .howto-step-row.reverse { flex-direction: column!important; gap:18px; padding: 18px 7px;}
+  .howto-step-img img { max-width:90vw; }
+}
 
-    .faq-question {
-      padding: 1.5rem;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 500;
-      transition: background-color 0.3s ease;
-    }
-
-    .faq-question:hover {
-      background: rgba(0, 95, 105, 0.05);
-    }
-
-    .faq-answer {
-      padding: 0 1.5rem 1.5rem;
-      color: #64748b;
-      display: none;
-    }
-
-    .faq-item.active .faq-answer {
-      display: block;
-    }
-
-    .faq-item.active .faq-question i {
-      transform: rotate(180deg);
-    }
-
-    /* Footer */
-    .footer {
-      background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
-      color: var(--text-dark);
-      padding: 3rem 0 2rem;
-      margin-top: 4rem;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-    }
-
-    .footer-section h3 {
-      margin-bottom: 1rem;
-      color: white;
-    }
-
-    .footer-section p,
-    .footer-section a {
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      line-height: 1.8;
-    }
-
-    .footer-section a:hover {
-      color: white;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    .social-links a {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-    }
-
-    .social-links a:hover {
-      background: var(--accent-color);
-      transform: translateY(-2px);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 2rem;
-      margin-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-      }
-
-      .hero h2 {
-        font-size: 2rem;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .nav-tabs {
-        padding: 0 1rem;
-      }
-
-      .main-content {
-        padding: 1rem;
-      }
-
-      .pricing-card.featured {
-        transform: none;
-      }
-    }
-
-    /* Loading Animation */
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50%;
-      border-top-color: white;
-      animation: spin 1s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
   </style>
 </head>
 <body>
-<!-- Header -->
-<header class="header">
-<div class="header-content">
-<div class="logo-section">
-<div class="logo">
-<img alt="UEHer Logo" src="logo.jpg" style="height: 60px; width: auto; border-radius: 8px;"/>
-</div>
-<div class="logo-text">
-<h1>UEHer đi học</h1>
-<p>Xếp lịch học thông minh</p>
-</div>
-</div>
-<div class="header-actions">
-<button class="theme-toggle" onclick="toggleTheme()">
-<i class="fas fa-moon"></i> <span id="theme-text">Chế độ tối</span>
-</button>
-<button class="lang-toggle" onclick="toggleLang()">
-<i class="fas fa-globe"></i> <span id="lang-text">EN</span>
-</button>
-</div>
+  <!-- HERO -->
+  <section class="hero-unical">
+    <div class="hero-pattern">
+      <svg width="100%" height="100%">
+        <defs>
+          <pattern id="dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="2" cy="2" r="1.5" fill="#e1e8f0" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dots)" />
+      </svg>
+    </div>
+    <div class="hero-content">
+      <img src="logo.jpg" alt="Logo UEHer" class="hero-logo" />
+      <h1>Lịch học UEH của bạn<br>được sắp xếp tự động</h1>
+      <div class="hero-desc">
+        Chán ngán việc phải kiểm tra lịch thủ công? Trải nghiệm cảm giác mới với UEHer đi học – tự động nhập và xuất lịch học lên Google Calendar, không còn lo lắng trùng lịch hay quên bài!
+      </div>
+      <a href="https://chromewebstore.google.com/detail/ueh-calendar-for-students/acmjeilpdldboimipdhdpkfahoionafd" target="_blank" class="hero-cta">
+        <i class="fas fa-rocket"></i> Cài tiện ích miễn phí
+      </a>
+      <div class="hero-badges">
+        <span class="hero-badge badge-free"><i class="fas fa-check-circle"></i> Miễn phí mãi mãi</span>
+        <span class="hero-badge badge-ueh"><i class="fas fa-university"></i> Tương thích UEH</span>
+        <span class="hero-badge badge-fast"><i class="fas fa-bolt"></i> Siêu tiện lợi</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURE -->
+  <div class="section" id="features" data-aos="fade-up">
+    <div class="section-title">Tính năng nổi bật</div>
+    <div class="features">
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="40">
+        <div class="feature-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div class="feature-title">Tự động xếp lịch</div>
+        <div class="feature-desc">Import file Excel/LMS và đồng bộ Google Calendar cá nhân chỉ 1 click.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="90">
+        <div class="feature-icon"><i class="fas fa-bell"></i></div>
+        <div class="feature-title">Nhắc nhở thông minh</div>
+        <div class="feature-desc">Tự động nhận thông báo lịch học, deadline, sự kiện, không lo quên lịch!</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="140">
+        <div class="feature-icon"><i class="fas fa-users"></i></div>
+        <div class="feature-title">Đa tài khoản & học kỳ</div>
+        <div class="feature-desc">Quản lý nhiều học kỳ, nhiều lớp & nhiều tài khoản Google Calendar linh hoạt.</div>
+      </div>
+      <div class="feature-card" data-aos="fade-up" data-aos-delay="190">
+        <div class="feature-icon"><i class="fas fa-book"></i></div>
+        <div class="feature-title">Tài liệu miễn phí</div>
+        <div class="feature-desc">Tặng kèm tài liệu học tập, cheat sheet & tips ôn thi hiệu quả khi bạn ib cho fanpage bọn mình nhaa.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOWTO SO LE -->
+  <div class="section howto-section" id="howto" data-aos="fade-up">
+    <div class="section-title">Hướng dẫn sử dụng</div>
+    <div class="howto-step-row" data-aos="fade-right">
+      <div class="howto-step-text">
+        <div class="howto-step-num">1</div>
+        <div class="howto-step-title">Vào Portal sinh viên</div>
+        <div class="howto-step-desc">Điều hướng đến portal sinh viên UEH và vào trang lịch học. Đảm bảo bạn đã đăng nhập và có thể thấy lịch học hiển thị.</div>
+      </div>
+      <div class="howto-step-img">
+        <img src="1.png" alt="Bước 1">
+      </div>
+    </div>
+    <div class="howto-step-row reverse" data-aos="fade-left">
+      <div class="howto-step-text">
+        <div class="howto-step-num">2</div>
+        <div class="howto-step-title">Chọn “Thứ - Tiết” để trích thời khóa biểu</div>
+        <div class="howto-step-desc">Check lại xem đã đúng thời khóa biểu cả kỳ chưaaa</div>
+      </div>
+      <div class="howto-step-img">
+        <img src="2.png" alt="Bước 2">
+      </div>
+    </div>
+    <div class="howto-step-row" data-aos="fade-right">
+      <div class="howto-step-text">
+        <div class="howto-step-num">3</div>
+        <div class="howto-step-title">Chỉ cần việc click xuất Excel</div>
+        <div class="howto-step-desc">Nhớ chọn đúng loại thời khóa biểu khi export file!</div>
+      </div>
+      <div class="howto-step-img">
+        <img src="3.png" alt="Bước 3">
+      </div>
+    </div>
+    <div class="howto-step-row reverse" data-aos="fade-left">
+      <div class="howto-step-text">
+        <div class="howto-step-num">4</div>
+        <div class="howto-step-title">Import & đồng bộ</div>
+        <div class="howto-step-desc">Kéo file vào Extension, chọn Google account, chỉ 1 click là xong!</div>
+      </div>
+      <div class="howto-step-img">
+        <img src="4.png" alt="Bước 4">
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+<div class="section" id="about" data-aos="fade-up">
+  <div class="section-title" style="margin-bottom:12px;">Về UEHer đi học</div>
+  <div style="text-align:center;font-size:1.13rem;color:#586179;margin-bottom:30px;">
+    Câu chuyện và sứ mệnh của chúng tôi
+  </div>
+  <div style="display: flex; flex-wrap: wrap; gap: 32px; justify-content: center; max-width: 1000px; margin: 0 auto;">
+    <div style="background: #fff; border-radius: 18px; box-shadow: 0 4px 20px rgba(44,169,226,0.08); padding: 38px 26px; flex: 1 1 250px; min-width:260px; max-width:320px; text-align: center;">
+      <div style="background: linear-gradient(135deg, #49b1e5, #a8e063); width:48px; height:48px; border-radius:14px; margin:0 auto 18px; display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-lightbulb" style="color:#fff;font-size:1.7rem;"></i>
+      </div>
+      <div style="font-weight:700;font-size:1.15rem;color:#233042;margin-bottom:8px;">Sứ mệnh</div>
+      <div style="color:#425065;">Giúp sinh viên UEH tối ưu hóa thời gian học tập, giảm stress và nâng cao hiệu quả học tập thông qua công nghệ.</div>
+    </div>
+    <div style="background: #fff; border-radius: 18px; box-shadow: 0 4px 20px rgba(44,169,226,0.08); padding: 38px 26px; flex: 1 1 250px; min-width:260px; max-width:320px; text-align: center;">
+      <div style="background: linear-gradient(135deg, #49b1e5, #f7971e); width:48px; height:48px; border-radius:14px; margin:0 auto 18px; display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-eye" style="color:#fff;font-size:1.7rem;"></i>
+      </div>
+      <div style="font-weight:700;font-size:1.15rem;color:#233042;margin-bottom:8px;">Tầm nhìn</div>
+      <div style="color:#425065;">Trở thành công cụ hỗ trợ số 1 cho sinh viên UEH trong việc quản lý lịch học và hoạt động học tập.</div>
+    </div>
+    <div style="background: #fff; border-radius: 18px; box-shadow: 0 4px 20px rgba(44,169,226,0.08); padding: 38px 26px; flex: 1 1 250px; min-width:260px; max-width:320px; text-align: center;">
+      <div style="background: linear-gradient(135deg, #f7971e, #faaca8); width:48px; height:48px; border-radius:14px; margin:0 auto 18px; display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-heart" style="color:#fff;font-size:1.7rem;"></i>
+      </div>
+      <div style="font-weight:700;font-size:1.15rem;color:#233042;margin-bottom:8px;">Giá trị cốt lõi</div>
+      <div style="color:#425065;">Đơn giản, hiệu quả, bảo mật và luôn đặt nhu cầu của sinh viên lên hàng đầu.</div>
+    </div>
+  </div>
 </div>
 
-</header>
-<!-- Navigation -->
-<nav class="nav-container">
-<div class="nav-content">
-<div class="nav-tabs">
-<a class="nav-tab active" href="#" onclick="switchTab('home')">
-<i class="fas fa-home"></i>
-<span>Trang chủ</span>
-</a>
-<a class="nav-tab" href="#" onclick="switchTab('about')">
-<i class="fas fa-info-circle"></i>
-<span>Giới thiệu</span>
-</a>
-<a class="nav-tab" href="#" onclick="switchTab('services')">
-<i class="fas fa-cogs"></i>
-<span>Dịch vụ</span>
-</a>
-<a class="nav-tab" href="#" onclick="switchTab('pricing')">
-<i class="fas fa-tags"></i>
-<span>Bảng giá</span>
-</a>
-<a class="nav-tab" href="#" onclick="switchTab('blog')">
-<i class="fas fa-blog"></i>
-<span>Blog</span>
-</a>
-<a class="nav-tab" href="#" onclick="switchTab('contact')">
-<i class="fas fa-envelope"></i>
-<span>Liên hệ</span>
-</a>
-<a class="nav-tab" href="#" onclick="switchTab('faq')">
-<i class="fas fa-question-circle"></i>
-<span>FAQ</span>
-</a>
-<a class="nav-tab" href="#" onclick="switchTab('privacy')"><i class="fas fa-user-shield"></i> Chính sách</a></div>
-</div>
-</nav>
-<!-- Main Content -->
-<main class="main-content">
-<!-- Home Tab -->
-<div class="tab-content active" id="home">
-<section class="hero">
-<h2>Xếp lịch học tự động với Google Calendar</h2>
-<p>Tiết kiệm thời gian, nâng cao hiệu quả học tập với công cụ tự động hóa lịch học dành riêng cho sinh viên UEH</p>
-<div class="cta-buttons">
-<a class="btn btn-primary" href="#">
-<i class="fas fa-rocket"></i>
-            Thử ngay
-          </a>
-<a class="btn btn-secondary" href="#">
-<i class="fas fa-play"></i>
-            Xem demo
-          </a>
-</div>
-</section>
-<section class="stats">
-<div class="stat-item">
-<span class="stat-number">4.9/5</span>
-<span class="stat-label">⭐ Đánh giá</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">1500+</span>
-<span class="stat-label">👥 Sinh viên tin dùng</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">500+</span>
-<span class="stat-label">💬 Phản hồi tích cực</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">100%</span>
-<span class="stat-label">🔒 Bảo mật</span>
-</div>
-</section>
-<section class="card-grid">
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-calendar-alt"></i>
-</div>
-<h3>Tự động xếp lịch</h3>
-<p>Tự động import lịch học từ file Excel và LMS, đồng bộ với Google Calendar chỉ trong 1 click.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-bell"></i>
-</div>
-<h3>Nhắc nhở thông minh</h3>
-<p>Nhận thông báo về lịch học, deadline bài tập và các sự kiện quan trọng khác.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-users"></i>
-</div>
-<h3>Hỗ trợ đa tài khoản</h3>
-<p>Quản lý nhiều học kỳ, nhiều lớp học và nhiều tài khoản Google Calendar cùng lúc.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-book"></i>
-</div>
-<h3>Tài liệu miễn phí</h3>
-<p>Tặng kèm tài liệu học tập, cheat sheet và tips học tập hiệu quả dành cho sinh viên UEH.</p>
-</div>
-</section>
-</div>
-<!-- About Tab -->
-<div class="tab-content" id="about">
-<section class="hero">
-<h2>Về UEHer đi học</h2>
-<p>Câu chuyện và sứ mệnh của chúng tôi</p>
-</section>
-<div class="card-grid">
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-lightbulb"></i>
-</div>
-<h3>Sứ mệnh</h3>
-<p>Giúp sinh viên UEH tối ưu hóa thời gian học tập, giảm stress và nâng cao hiệu quả học tập thông qua công nghệ.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-eye"></i>
-</div>
-<h3>Tầm nhìn</h3>
-<p>Trở thành công cụ hỗ trợ số 1 cho sinh viên UEH trong việc quản lý lịch học và hoạt động học tập.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-heart"></i>
-</div>
-<h3>Giá trị cốt lõi</h3>
-<p>Đơn giản, hiệu quả, bảo mật và luôn đặt nhu cầu của sinh viên lên hàng đầu.</p>
-</div>
-</div>
-</div>
-<!-- Services Tab -->
-<div class="tab-content" id="services">
-<section class="hero">
-<h2>Dịch vụ của chúng tôi</h2>
-<p>Giải pháp toàn diện cho việc quản lý lịch học</p>
-</section>
-<div class="card-grid">
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-upload"></i>
-</div>
-<h3>Import lịch học</h3>
-<p>Tự động đọc và xử lý file Excel lịch học từ hệ thống UEH Portal.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-sync"></i>
-</div>
-<h3>Đồng bộ Google Calendar</h3>
-<p>Tự động tạo sự kiện và đồng bộ với Google Calendar cá nhân.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-graduation-cap"></i>
-</div>
-<h3>Quản lý deadline</h3>
-<p>Theo dõi và nhắc nhở deadline từ Canvas, Moodle và các LMS khác.</p>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-chart-bar"></i>
-</div>
-<h3>Báo cáo thống kê</h3>
-<p>Thống kê thời gian học, tỉ lệ tham gia và hiệu quả học tập.</p>
-</div>
-</div>
-</div>
-<!-- Pricing Tab -->
-<div class="tab-content" id="pricing">
-<section class="hero">
-<h2>Bảng giá dịch vụ</h2>
-<p>Chọn gói phù hợp với nhu cầu của bạn</p>
-</section>
-<div class="pricing-grid">
-<div class="pricing-card">
-<div class="pricing-title">Miễn phí</div>
-<div class="pricing-price">0₫</div>
-<div class="pricing-period">Mãi mãi</div>
-<ul class="pricing-features">
-<li><i class="fas fa-check"></i> Xếp lịch học cơ bản</li>
-<li><i class="fas fa-check"></i> Đồng bộ Google Calendar</li>
-<li><i class="fas fa-check"></i> Hỗ trợ 1 tài khoản</li>
-<li><i class="fas fa-check"></i> Tài liệu học tập</li>
-</ul>
-<a class="btn btn-secondary" href="#">Sử dụng ngay</a>
-</div>
-<div class="pricing-card featured">
-<div class="pricing-badge">Phổ biến</div>
-<div class="pricing-title">Premium</div>
-<div class="pricing-price">49₫</div>
-<div class="pricing-period">/ tháng</div>
-<ul class="pricing-features">
-<li><i class="fas fa-check"></i> Tất cả tính năng Miễn phí</li>
-<li><i class="fas fa-check"></i> Hỗ trợ nhiều tài khoản</li>
-<li><i class="fas fa-check"></i> Nhắc nhở thông minh</li>
-<li><i class="fas fa-check"></i> Báo cáo chi tiết</li>
-<li><i class="fas fa-check"></i> Hỗ trợ ưu tiên</li>
-</ul>
-<a class="btn btn-primary" href="#">Nâng cấp ngay</a>
-</div>
-<div class="pricing-card">
-<div class="pricing-title">Enterprise</div>
-<div class="pricing-price">Liên hệ</div>
-<div class="pricing-period">Tùy chỉnh</div>
-<ul class="pricing-features">
-<li><i class="fas fa-check"></i> Tất cả tính năng Premium</li>
-<li><i class="fas fa-check"></i> Tích hợp API</li>
-<li><i class="fas fa-check"></i> Hỗ trợ 24/7</li>
-<li><i class="fas fa-check"></i> Đào tạo nhân viên</li>
-<li><i class="fas fa-check"></i> Tùy chỉnh theo yêu cầu</li>
-</ul>
-<a class="btn btn-secondary" href="#">Liên hệ</a>
-</div>
-</div>
-</div>
-<!-- Blog Tab -->
-<div class="tab-content" id="blog">
-<section class="hero">
-<h2>Blog &amp; Tin tức</h2>
-<p>Cập nhật các thông tin mới nhất và tips học tập</p>
-</section>
-<div class="card-grid">
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-calendar-check"></i>
-</div>
-<h3>10 Tips quản lý thời gian hiệu quả cho sinh viên</h3>
-<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">15/06/2025 • 5 phút đọc</p>
-<p>Khám phá những phương pháp quản lý thời gian được chứng minh khoa học giúp bạn tối ưu hóa việc học...</p>
-<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-graduation-cap"></i>
-</div>
-<h3>Cách sử dụng Google Calendar để tăng năng suất học tập</h3>
-<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">12/06/2025 • 7 phút đọc</p>
-<p>Hướng dẫn chi tiết cách tận dụng tối đa Google Calendar để lên kế hoạch học tập hiệu quả...</p>
-<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-lightbulb"></i>
-</div>
-<h3>Xu hướng EdTech 2025: Tương lai của giáo dục số</h3>
-<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">10/06/2025 • 8 phút đọc</p>
-<p>Tìm hiểu những xu hướng công nghệ giáo dục mới nhất và cách chúng thay đổi cách chúng ta học...</p>
-<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-mobile-alt"></i>
-</div>
-<h3>Cập nhật Extension UEHer v2.0 - Những tính năng mới</h3>
-<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">08/06/2025 • 4 phút đọc</p>
-<p>Khám phá những tính năng mới trong phiên bản 2.0: AI scheduling, sync đa nền tảng...</p>
-<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-users"></i>
-</div>
-<h3>Câu chuyện thành công từ cộng đồng UEHers</h3>
-<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">05/06/2025 • 6 phút đọc</p>
-<p>Chia sẻ từ những sinh viên đã thành công trong việc cải thiện kết quả học tập nhờ UEHer...</p>
-<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-</div>
-<div class="card">
-<div class="card-icon">
-<i class="fas fa-shield-alt"></i>
-</div>
-<h3>Bảo mật dữ liệu: Cam kết của UEHer đi học</h3>
-<p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1rem;">03/06/2025 • 5 phút đọc</p>
-<p>Tìm hiểu cách chúng tôi bảo vệ thông tin cá nhân và dữ liệu học tập của bạn...</p>
-<a href="#" style="color: var(--accent-color); font-weight: 600;">Đọc thêm →</a>
-</div>
-</div>
-</div>
-<!-- Contact Tab -->
-<div class="tab-content" id="contact">
-<section class="hero">
-<h2>Liên hệ &amp; Hỗ trợ</h2>
-<p>Chúng tôi luôn sẵn sàng hỗ trợ bạn</p>
-</section>
-<div style="display: flex; flex-wrap: wrap; gap: 3rem; margin-bottom: 3rem;">
-<div>
-<h3 style="color: var(--primary-color); margin-bottom: 1.5rem;">Thông tin liên hệ</h3>
-<div style="display: flex; flex-direction: column; gap: 1.5rem;">
-<div style="display: flex; align-items: center; gap: 1rem;">
-<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-<i class="fas fa-envelope"></i>
-</div>
-<div>
-<h4 style="margin-bottom: 0.25rem;">Email</h4>
-<p style="color: #64748b; margin: 0;">ueherdihoc.contact@gmail.com</p>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 1rem;">
-<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-<i class="fab fa-facebook"></i>
-</div>
-<div>
-<h4 style="margin-bottom: 0.25rem;">Facebook</h4>
-<p style="color: #64748b; margin: 0;">UEHer đi học</p>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 1rem;">
-<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-<i class="fas fa-clock"></i>
-</div>
-<div>
-<h4 style="margin-bottom: 0.25rem;">Thời gian hỗ trợ</h4>
-<p style="color: #64748b; margin: 0;">8:00 - 22:00 (T2-CN)</p>
-</div>
-</div>
-<div style="display: flex; align-items: center; gap: 1rem;">
-<div style="width: 50px; height: 50px; background: var(--accent-color); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white;">
-<i class="fas fa-map-marker-alt"></i>
-</div>
-<div>
-<h4 style="margin-bottom: 0.25rem;">Địa chỉ</h4>
-<p style="color: #64748b; margin: 0;">UEH - Đại học Kinh tế TP.HCM</p>
-</div>
-</div>
-</div>
-</div>
-<div class="contact-form" style="background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
-<h3 style="color: var(--primary-color); margin-bottom: 1.5rem; font-size: 1.5rem;">Gửi tin nhắn</h3>
-<form onsubmit="submitContactForm(event)">
-<div class="form-group" style="margin-bottom: 1rem;">
-<label for="name" style="font-weight: 500;">Họ và tên *</label>
-<input id="name" name="name" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);" type="text"/>
-</div>
-<div class="form-group" style="margin-bottom: 1rem;">
-<label for="email" style="font-weight: 500;">Email *</label>
-<input id="email" name="email" required="" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);" type="email"/>
-</div>
-<div class="form-group" style="margin-bottom: 1rem;">
-<label for="subject" style="font-weight: 500;">Chủ đề</label>
-<select id="subject" name="subject" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light);">
-<option value="support">Hỗ trợ kỹ thuật</option>
-<option value="feedback">Phản hồi</option>
-<option value="bug">Báo lỗi</option>
-<option value="feature">Đề xuất tính năng</option>
-<option value="other">Khác</option>
-</select>
-</div>
-<div class="form-group" style="margin-bottom: 1.5rem;">
-<label for="message" style="font-weight: 500;">Nội dung *</label>
-<textarea id="message" name="message" required="" rows="5" style="width: 100%; padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 8px; background: var(--card-bg); color: var(--text-light); resize: vertical;"></textarea>
-</div>
-<button class="btn btn-primary" style="width: 100%; padding: 0.85rem; border-radius: 8px; font-weight: 600; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px;" type="submit">
-<i class="fas fa-paper-plane"></i>
-      Gửi tin nhắn
-    </button>
-</form>
-</div>
-</div>
-<!-- FAQ Preview -->
-<div style="background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color);">
-<h3 style="color: var(--primary-color); margin-bottom: 1rem;">Câu hỏi thường gặp</h3>
-<p style="color: #64748b; margin-bottom: 1.5rem;">Không tìm thấy câu trả lời? Xem thêm trong mục FAQ hoặc liên hệ trực tiếp với chúng tôi.</p>
-<a class="btn btn-secondary" href="#" onclick="switchTab('faq')">
-<i class="fas fa-question-circle"></i>
-          Xem tất cả FAQ
-        </a>
-</div>
-</div>
-<!-- FAQ Tab -->
-<div class="tab-content" id="faq">
-<section class="hero">
-<h2>Câu hỏi thường gặp</h2>
-<p>Tìm câu trả lời cho những thắc mắc của bạn</p>
-</section>
-<div style="max-width: 800px; margin: 0 auto;">
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>📌 Extension UEHer đi học có dễ sử dụng không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Hoàn toàn! Extension được thiết kế với giao diện đơn giản, trực quan. Chỉ cần vài cú click chuột, bạn đã có thể tự động xếp lịch học lên Google Calendar. Chúng tôi cũng cung cấp hướng dẫn chi tiết và video demo để bạn có thể bắt đầu ngay lập tức.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>🔐 Có cần cấp quyền truy cập Google Calendar không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Có, để tạo và quản lý các sự kiện học tập trên Google Calendar của bạn, extension cần được cấp quyền truy cập. Tuy nhiên, chúng tôi chỉ yêu cầu quyền tối thiểu cần thiết và cam kết không lưu trữ hay chia sẻ dữ liệu cá nhân của bạn với bên thứ ba.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>🛡️ Dữ liệu cá nhân của tôi có được bảo mật không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Bảo mật là ưu tiên hàng đầu của chúng tôi. Dữ liệu chỉ được xử lý tạm thời để tạo lịch học và không được lưu trữ trên server. Tất cả thông tin được mã hóa và tuân thủ các tiêu chuẩn bảo mật quốc tế. Bạn có thể yên tâm về việc bảo vệ thông tin cá nhân.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>📊 Extension có hỗ trợ file Excel từ UEH Portal không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Có! Extension được thiết kế đặc biệt để đọc và xử lý file Excel lịch học từ hệ thống UEH Portal. Chúng tôi thường xuyên cập nhật để đảm bảo tương thích với các thay đổi trong định dạng file từ nhà trường.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>🎓 Có hỗ trợ nhiều học kỳ cùng lúc không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Hoàn toàn có! Extension hỗ trợ quản lý nhiều học kỳ, nhiều lớp học và thậm chí nhiều tài khoản Google Calendar cùng lúc. Bạn có thể dễ dàng chuyển đổi giữa các học kỳ khác nhau và tùy chỉnh cài đặt cho từng lịch riêng biệt.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>💰 Extension có miễn phí không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Chúng tôi cung cấp phiên bản miễn phí với đầy đủ tính năng cơ bản. Đối với những ai muốn trải nghiệm thêm các tính năng nâng cao như báo cáo chi tiết, hỗ trợ ưu tiên, có thể nâng cấp lên gói Premium chỉ với 49k/tháng.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>📱 Có ứng dụng mobile không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Hiện tại chúng tôi chỉ có Extension cho trình duyệt, nhưng ứng dụng mobile đang trong quá trình phát triển và sẽ ra mắt trong thời gian tới. Bạn có thể đăng ký để nhận thông báo khi ứng dụng mobile chính thức phát hành.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>🆘 Tôi gặp lỗi khi sử dụng, phải làm sao?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Đừng lo lắng! Bạn có thể liên hệ với team hỗ trợ qua Facebook fanpage "UEHer đi học" hoặc email support@ueher.edu.vn. Chúng tôi cam kết phản hồi trong vòng 24h và hỗ trợ giải quyết mọi vấn đề bạn gặp phải.</p>
-</div>
-</div>
-<div class="faq-item">
-<div class="faq-question" onclick="toggleFaq(this)">
-<span>🎁 Có tài liệu học tập miễn phí không?</span>
-<i class="fas fa-chevron-down"></i>
-</div>
-<div class="faq-answer">
-<p>Có! Khi sử dụng extension, bạn sẽ được tặng kèm bộ tài liệu học tập, cheat sheets và tips học tập hiệu quả được tổng hợp từ các sinh viên xuất sắc UEH. Tài liệu được cập nhật thường xuyên và hoàn toàn miễn phí.</p>
-</div>
-</div>
-</div>
+
+  <!-- PRIVACY -->
+<div class="section" id="privacy" data-aos="fade-up">
+  <div class="section-title" style="margin-bottom:12px;">Chính sách quyền riêng tư</div>
+  <div style="text-align:center;font-size:1.13rem;color:#586179;margin-bottom:30px;">
+    Chúng tôi cam kết bảo vệ thông tin cá nhân và quyền riêng tư của người dùng.
+  </div>
+  <div style="max-width:800px;margin:0 auto;color:#233042;font-size:1.07rem;">
+    <b>1. Mục đích thu thập</b><br>
+    Chúng tôi thu thập thông tin người dùng để cung cấp dịch vụ xếp lịch học, hỗ trợ kỹ thuật và cải thiện trải nghiệm người dùng.<br><br>
+    <b>2. Phạm vi sử dụng thông tin</b><br>
+    Thông tin sẽ chỉ được sử dụng nội bộ và không chia sẻ với bên thứ ba trừ khi có sự cho phép rõ ràng từ người dùng.<br><br>
+    <b>3. Lưu trữ và bảo mật</b><br>
+    Dữ liệu được lưu trữ tạm thời và xử lý bảo mật theo tiêu chuẩn quốc tế. Mọi kết nối và thao tác đều được mã hóa.<br><br>
+    <b>4. Quyền của người dùng</b><br>
+    Bạn có quyền yêu cầu chỉnh sửa hoặc xóa thông tin cá nhân bất cứ lúc nào bằng cách liên hệ với chúng tôi qua email.<br><br>
+    <b>5. Liên hệ</b><br>
+    Mọi thắc mắc liên quan đến chính sách bảo mật, vui lòng gửi email đến <b>ueherdihoc.contact@gmail.com</b>.
+  </div>
 </div>
 
-<div class="tab-content" id="privacy">
-<section class="hero">
-<h2>Chính sách quyền riêng tư</h2>
-<p>Chúng tôi cam kết bảo vệ thông tin cá nhân và quyền riêng tư của người dùng.</p>
-</section>
-<div style="max-width: 800px; margin: 0 auto; line-height: 1.8; color: #64748b;">
-<h3>1. Mục đích thu thập</h3>
-<p>Chúng tôi thu thập thông tin người dùng để cung cấp dịch vụ xếp lịch học, hỗ trợ kỹ thuật và cải thiện trải nghiệm người dùng.</p>
-<h3>2. Phạm vi sử dụng thông tin</h3>
-<p>Thông tin sẽ chỉ được sử dụng nội bộ và không chia sẻ với bên thứ ba trừ khi có sự cho phép rõ ràng từ người dùng.</p>
-<h3>3. Lưu trữ và bảo mật</h3>
-<p>Dữ liệu được lưu trữ tạm thời và xử lý bảo mật theo tiêu chuẩn quốc tế. Mọi kết nối và thao tác đều được mã hóa.</p>
-<h3>4. Quyền của người dùng</h3>
-<p>Bạn có quyền yêu cầu chỉnh sửa hoặc xóa thông tin cá nhân bất cứ lúc nào bằng cách liên hệ với chúng tôi qua email.</p>
-<h3>5. Liên hệ</h3>
-<p>Mọi thắc mắc liên quan đến chính sách bảo mật, vui lòng gửi email đến <strong>ueherdihoc.contact@gmail.com</strong>.</p>
-</div>
-</div>
-</main>
-<!-- Footer -->
-<footer class="footer">
-<div class="footer-content">
-<div class="footer-section">
-<h3>UEHer đi học</h3>
-<p>Giải pháp xếp lịch học thông minh dành cho sinh viên UEH. Tiết kiệm thời gian, nâng cao hiệu quả học tập.</p>
-<div class="social-links">
-<a href="https://www.facebook.com/profile.php?id=61569864908193"><i class="fab fa-facebook"></i></a>
-<a href="#"><i class="fab fa-instagram"></i></a>
-<a href="#"><i class="fab fa-twitter"></i></a>
-<a href="#"><i class="fab fa-youtube"></i></a>
-</div>
-</div>
-<div class="footer-section">
-<h3>Sản phẩm</h3>
-<a href="#">Chrome Extension</a><br/>
-<a href="#">Web App</a><br/>
-<a href="#">Mobile App (Sắp ra mắt)</a><br/>
-<a href="#">API cho developers</a>
-</div>
-<div class="footer-section">
-<h3>Hỗ trợ</h3>
-<a href="#">Trung tâm trợ giúp</a><br/>
-<a href="#">Hướng dẫn sử dụng</a><br/>
-<a href="#">Video tutorials</a><br/>
-<a href="#" onclick="switchTab('contact')">Liên hệ hỗ trợ</a>
-</div>
-<div class="footer-section">
-<h3>Công ty</h3>
-<a href="#" onclick="switchTab('about')">Về chúng tôi</a><br/>
-<a href="#" onclick="switchTab('blog')">Blog</a><br/>
-<a href="#">Tuyển dụng</a><br/>
-<a href="#" onclick="switchTab('services')">Dịch vụ</a><br/>
-</div>
-</div>
-<div class="footer-bottom">
-<p>© 2025 UEHer đi học. Tất cả các quyền được bảo lưu. Được phát triển với ❤️ bởi sinh viên UEH.</p>
-</div>
-</footer>
-<!-- Scripts -->
-<script>
-    // Tab switching functionality
-    function switchTab(tabName) {
-      // Hide all tab contents
-      const tabContents = document.querySelectorAll('.tab-content');
-      tabContents.forEach(content => {
-        content.classList.remove('active');
+
+  <!-- FAQ -->
+  <div class="section faq-section" data-aos="fade-up">
+    <div class="faq-title">Câu hỏi thường gặp</div>
+    <div class="faq-list">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Extension có dễ sử dụng không?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Chỉ vài click là xong, giao diện thân thiện, có video và hướng dẫn đầy đủ.</div>
+      </div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Có bảo mật thông tin không?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Dữ liệu chỉ xử lý tạm thời, không lưu hoặc chia sẻ với bên thứ ba. Kết nối mã hóa.</div>
+      </div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Hỗ trợ nhiều học kỳ, nhiều tài khoản không?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Quản lý đa tài khoản Google Calendar, nhiều học kỳ và lớp học linh hoạt.</div>
+      </div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Extension có miễn phí không?<i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Hoàn toàn miễn phí cho tất cả sinh viên.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact-section" data-aos="fade-up">
+    <div class="contact-title">Liên hệ & hỗ trợ</div>
+    <div class="contact-desc">Gặp vấn đề? Gửi phản hồi cho chúng tôi. Fanpage <a href="https://www.facebook.com/profile.php?id=61569864908193" style="color:#18409a;font-weight:600" target="_blank">UEHer đi học</a> hoặc email <b>ueherdihoc.contact@gmail.com</b></div>
+    <form class="contact-form" onsubmit="submitContactForm(event)">
+      <div class="form-group">
+        <label for="name">Họ và tên *</label>
+        <input id="name" name="name" required type="text"/>
+      </div>
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input id="email" name="email" required type="email"/>
+      </div>
+      <div class="form-group">
+        <label for="subject">Chủ đề</label>
+        <select id="subject" name="subject">
+          <option value="support">Hỗ trợ kỹ thuật</option>
+          <option value="feedback">Phản hồi</option>
+          <option value="bug">Báo lỗi</option>
+          <option value="feature">Đề xuất tính năng</option>
+          <option value="other">Khác</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Nội dung *</label>
+        <textarea id="message" name="message" required rows="4"></textarea>
+      </div>
+      <button class="btn-send" type="submit"><i class="fas fa-paper-plane"></i> Gửi tin nhắn</button>
+    </form>
+  </div>
+
+  <footer class="footer">
+    © 2025 UEHer đi học | Sinh viên UEH phát triển. Không thuộc UEH chính thức.<br>
+    Theo dõi fanpage để nhận cập nhật mới nhất!
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 750, once: true, easing: 'ease-out' });
+    function toggleFaq(el) {
+      var item = el.closest('.faq-item');
+      var opened = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+      if (!opened) item.classList.add('active');
+    }
+    // Gửi contact form vào Google Sheets
+    function submitContactForm(event) {
+      event.preventDefault();
+      const form = event.target;
+      const submitButton = form.querySelector('button[type="submit"]');
+      const originalText = submitButton.innerHTML;
+      submitButton.innerHTML = '<div class="loading"></div> Đang gửi...';
+      submitButton.disabled = true;
+      const formData = new FormData(form);
+      fetch("https://script.google.com/macros/s/AKfycbx6W6JuhJun-HrPXUHvU8hIG3OGhKjSwZHqzGKrqt-88xenk766pOx-4HjT0zfECosV4A/exec", {
+        method: "POST", body: formData
+      })
+      .then(() => {
+        form.reset();
+        submitButton.innerHTML = originalText;
+        submitButton.disabled = false;
+        Toastify({
+          text: "🎉 Gửi thành công! Cảm ơn bạn đã liên hệ.",
+          duration: 3000, gravity: "bottom", position: "right", backgroundColor: "#10b981"
+        }).showToast();
+      })
+      .catch(() => {
+        submitButton.innerHTML = originalText;
+        submitButton.disabled = false;
+        Toastify({
+          text: "😢 Gửi thất bại! Vui lòng thử lại.",
+          duration: 3000, gravity: "bottom", position: "right", backgroundColor: "#ef4444"
+        }).showToast();
       });
-      
-      // Remove active class from all nav tabs
-      const navTabs = document.querySelectorAll('.nav-tab');
-      navTabs.forEach(tab => {
-        tab.classList.remove('active');
-      });
-      
-      // Show selected tab content
-      document.getElementById(tabName).classList.add('active');
-      
-      // Add active class to clicked nav tab
-      event.target.closest('.nav-tab').classList.add('active');
     }
-
-    // Theme toggle functionality
-    function toggleTheme() {
-      const html = document.documentElement;
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      const themeText = document.getElementById('theme-text');
-      const themeIcon = document.querySelector('.theme-toggle i');
-      
-      html.setAttribute('data-theme', newTheme);
-      
-      if (newTheme === 'dark') {
-        themeText.textContent = 'Chế độ sáng';
-        themeIcon.className = 'fas fa-sun';
-      } else {
-        themeText.textContent = 'Chế độ tối';
-        themeIcon.className = 'fas fa-moon';
-      }
-      
-      // Save theme preference
-      localStorage.setItem('theme', newTheme);
-    }
-
-    // Language toggle functionality
-    function toggleLang() {
-      const langText = document.getElementById('lang-text');
-      const currentLang = langText.textContent;
-      
-      if (currentLang === 'EN') {
-        langText.textContent = 'VI';
-        // Add English translation logic here
-      } else {
-        langText.textContent = 'EN';
-        // Add Vietnamese translation logic here
-      }
-    }
-    
-
-    // FAQ toggle functionality
-    function toggleFaq(element) {
-      const faqItem = element.parentElement;
-      const isActive = faqItem.classList.contains('active');
-      
-      // Close all FAQ items
-      document.querySelectorAll('.faq-item').forEach(item => {
-        item.classList.remove('active');
-      });
-      
-      // Open clicked item if it wasn't active
-      if (!isActive) {
-        faqItem.classList.add('active');
-      }
-    }
-
-  function submitContactForm(event) {
-  event.preventDefault();
-  const form = event.target;
-  const submitButton = form.querySelector('button[type="submit"]');
-  const originalText = submitButton.innerHTML;
-
-  submitButton.innerHTML = '<div class="loading"></div> Đang gửi...';
-  submitButton.disabled = true;
-
-  // Dùng FormData để gửi theo kiểu form-urlencoded
-  const formData = new FormData(form);
-
-  fetch("https://script.google.com/macros/s/AKfycbx6W6JuhJun-HrPXUHvU8hIG3OGhKjSwZHqzGKrqt-88xenk766pOx-4HjT0zfECosV4A/exec", {
-    method: "POST",
-    body: formData
-  })
-  .then(() => {
-    form.reset();
-    submitButton.innerHTML = originalText;
-    submitButton.disabled = false;
-    Toastify({
-      text: "🎉 Gửi thành công! Cảm ơn bạn đã liên hệ.",
-      duration: 3000,
-      gravity: "bottom",
-      position: "right",
-      backgroundColor: "#10b981"
-    }).showToast();
-  })
-  .catch(() => {
-    submitButton.innerHTML = originalText;
-    submitButton.disabled = false;
-    Toastify({
-      text: "😢 Gửi thất bại! Vui lòng thử lại.",
-      duration: 3000,
-      gravity: "bottom",
-      position: "right",
-      backgroundColor: "#ef4444"
-    }).showToast();
-  });
-}
-
-    // Initialize theme on page load
-    document.addEventListener('DOMContentLoaded', function() {
-      const savedTheme = 'light';
-      if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        const themeText = document.getElementById('theme-text');
-        const themeIcon = document.querySelector('.theme-toggle i');
-        
-        if (savedTheme === 'dark') {
-          themeText.textContent = 'Chế độ sáng';
-          themeIcon.className = 'fas fa-sun';
-        }
-      }
-    });
-
-    // Smooth scrolling for internal links
-    document.addEventListener('click', function(e) {
-      if (e.target.matches('a[href^="#"]')) {
-        e.preventDefault();
-        const targetId = e.target.getAttribute('href').substring(1);
-        const targetElement = document.getElementById(targetId);
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-    });
-
-    // Add scroll effect to navbar
-    window.addEventListener('scroll', function() {
-      const navbar = document.querySelector('.nav-container');
-      if (window.scrollY > 100) {
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.1)';
-      } else {
-        navbar.style.boxShadow = 'var(--shadow)';
-      }
-    });
   </script>
 </body>
 </html>
